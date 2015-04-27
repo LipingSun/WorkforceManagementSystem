@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , report = require('./routes/reports')
+  , building = require('./routes/building')
   , http = require('http')
   , path = require('path');
 
@@ -32,6 +33,7 @@ app.get('/', routes.index);
 app.get('/signin', routes.signin);
 app.get('/users', user.list);
 app.use('/reports', report);
+app.use('/buildings', building);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
