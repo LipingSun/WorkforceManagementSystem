@@ -9,7 +9,7 @@ var connectionPool = mysql.createPool({
     user: 'b6138a04494eed',
     password: 'c592d894',
     database: 'ad_fcc7aab1bbdc042',
-    connectionLimit: 3//,
+    connectionLimit: 2//,
     //multipleStatements: true
 });
 
@@ -31,12 +31,12 @@ login.get('/', function (req, res) {
 login.post('/', function (req, res) {
     console.log('\nPOST ' + req.originalUrl);
 
-    var sql = squel.select().from('user_credentials').where('username=' + mysql.escape(req.body.email)).toString();
+    var sql = squel.select().from('user').where('email=' + mysql.escape(req.body.email)).toString();
     console.log('DB Query: ' + sql);
     connectionPool.query(sql, function (err, data) {
         if (!err) {
             console.log('DB Result: ' + JSON.stringify(data));
-            if (data[0].password === req.body.password) {
+            //if (data[0].password === req.body.password) {
                 req.session.regenerate(function (err) {
                     if (!err) {
                         req.session.user = {};
@@ -47,7 +47,7 @@ login.post('/', function (req, res) {
                         res.json(200, req.session.user);
                     }
                 });
-            }
+            //}
         } else {
             console.log('DB ERROR: ' + err.message);
             res.json(500, {
