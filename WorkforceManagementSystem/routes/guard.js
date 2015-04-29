@@ -26,8 +26,8 @@ function createGuard(req,res) {
 }
 
 function getGuardByGuardId(req,res) {
-	if(req.params.id) {
-		mysql.getGuardByGuardId(req.params.id, function(err,result) {
+	if(req.query.hasOwnProperty('guard_id')) {
+		mysql.getGuardByGuardId(req.query.guard_id, function(err,result) {
 			if(err) {
 				throw err;
 			} else {
@@ -92,8 +92,8 @@ function getAllGuards(req,res) {
 }
 
 function deleteGuard(req,res) {
-	if(req.params.id) {
-		mysql.deleteGuard(req.params.id,function(err,result) {
+	if(req.query.hasOwnProperty("guard_id")) {
+		mysql.deleteGuard(req.query.guard_id,function(err,result) {
 			if(err) {
 				throw err;
 			} else {
@@ -106,8 +106,8 @@ function deleteGuard(req,res) {
 }
 
 function updateGuardInfo(req,res) {
-	if(req.params.id && req.body.hasOwnProperty("firstName") && req.body.hasOwnProperty("lastName") && req.body.hasOwnProperty("address") &&
-			req.body.hasOwnProperty("city") && req.body.hasOwnProperty("state") && req.body.hasOwnProperty("zipCode") && req.body.hasOwnProperty("phoneNumber") && req.body.hasOwnProperty("email")) {
+	if(req.query.hasOwnProperty("guard_id") && req.body.hasOwnProperty("first_name") && req.body.hasOwnProperty("last_name") && req.body.hasOwnProperty("address") &&
+			req.body.hasOwnProperty("city") && req.body.hasOwnProperty("state") && req.body.hasOwnProperty("zip_code") && req.body.hasOwnProperty("phone_number") && req.body.hasOwnProperty("email")) {
 		var updateInfo = {
 				guard_id: req.query.guard_id,
 				first_name: req.body.first_name,

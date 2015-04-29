@@ -56,24 +56,24 @@ if ('development' == app.get('env')) {
 
 //GETS
 app.get('/', routes.index);
-app.get('/users/:id', user.getUserById);
+app.get('/user', user.getUserById);
 app.get('/users', user.getAllUsers);
-app.get('/clients/:id', client.getClientByClientId);
+app.get('/client', client.getClientByClientId);
 app.get('/clients', client.getAllClients);
-app.get('/clients/:id/bills', bill.getBillsForClient);
-app.get('/guards/:id', guard.getGuardByGuardId);
+app.get('/client/bills', bill.getBillsForClient);
+app.get('/guard', guard.getGuardByGuardId);
 app.get('/guards', guard.getAllGuards);
 
 //POSTS
-app.post('/users', user.createUser);
-app.post('/clients', client.createClient);
-app.post('/clients/bill', bill.createBillForClient);
-app.post('/guards', guard.createGuard);
-app.post('/guards/:id/update', guard.updateGuardInfo);
+app.post('/user', user.createUser);
+app.post('/client', client.createClient);
+app.post('/client/bill', bill.createBillForClient);
+app.post('/guard', guard.createGuard);
+app.post('/guard/update', guard.updateGuardInfo);
 
 //DELETES
-app.delete('/clients/:id', client.deleteClient);
-app.delete('/guards/:id', guard.deleteGuard);
+app.delete('/client', client.deleteClient);
+app.delete('/guard', guard.deleteGuard);
 
 //app.get('/users', user.list);
 
