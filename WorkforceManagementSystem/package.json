@@ -7,6 +7,12 @@
   },
   "dependencies": {
     "express": "3.2.6",
-    "ejs": "*"
-  }
+    "ejs": "*",
+    "express-session": "*",
+    "amqp": "*",
+    "chance": "*",
+    "mysql": "*",
+    "squel": "*"
+  },
+  "main": "app.js"
 }
