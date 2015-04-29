@@ -42,6 +42,11 @@ app.use(session({
     saveUninitialized: true//,
     //cookie: { maxAge: 15 * 60 * 1000 }
 }));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 // development only
 if ('development' == app.get('env')) {
@@ -51,24 +56,24 @@ if ('development' == app.get('env')) {
 
 //GETS
 app.get('/', routes.index);
-app.get('/user', user.getUserById);
+app.get('/users/:id', user.getUserById);
 app.get('/users', user.getAllUsers);
-app.get('/client', client.getClientByClientId);
+app.get('/clients/:id', client.getClientByClientId);
 app.get('/clients', client.getAllClients);
-app.get('/client/bills', bill.getBillsForClient);
-app.get('/guard', guard.getGuardByGuardId);
+app.get('/clients/:id/bills', bill.getBillsForClient);
+app.get('/guards/:id', guard.getGuardByGuardId);
 app.get('/guards', guard.getAllGuards);
 
 //POSTS
-app.post('/user', user.createUser);
-app.post('/client', client.createClient);
-app.post('/client/bill', bill.createBillForClient);
-app.post('/guard', guard.createGuard);
-app.post('/guard/update', guard.updateGuardInfo);
+app.post('/users', user.createUser);
+app.post('/clients', client.createClient);
+app.post('/clients/bill', bill.createBillForClient);
+app.post('/guards', guard.createGuard);
+app.post('/guards/:id/update', guard.updateGuardInfo);
 
 //DELETES
-app.delete('/client', client.deleteClient);
-app.delete('/guard', guard.deleteGuard);
+app.delete('/clients/:id', client.deleteClient);
+app.delete('/guards/:id', guard.deleteGuard);
 
 //app.get('/users', user.list);
 

@@ -40,7 +40,7 @@ login.post('/', function (req, res) {
                 req.session.regenerate(function (err) {
                     if (!err) {
                         req.session.user = {};
-                        req.session.user.user_id = data[0].user_id;
+                        req.session.user.id = data[0].user_id;
                         req.session.user.login = true;
                         req.session.user.type = data[0].user_type;
                         res.location('/');

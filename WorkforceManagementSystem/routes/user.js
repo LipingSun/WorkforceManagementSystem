@@ -40,7 +40,7 @@ function createUser(req,res) {
 }
 
 function getUserById(req,res) {
-	if(req.query.id !== 'undefined') {
+	if(req.params.id) {
 		mysql.getUserById(req.query.id, function(err,results) {
 			if(err) {
 				throw err;
