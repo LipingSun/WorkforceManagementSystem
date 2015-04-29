@@ -38,25 +38,25 @@ function getClientByClientId(req,res) {
 			} else {
 				if(result.length > 0) {
 					var clientResult = result[0];
-					var client = {
-							client_id: clientResult.client_id,
-							firstName: clientResult.first_name,
-							lastName: clientResult.last_name,
-							address: clientResult.address,
-							city: clientResult.city,
-							state:clientResult.state,
-							zipCode: clientResult.zip,
-							phoneNumber: clientResult.phone_number,
-							email: clientResult.email
-					};
+					//var client = {
+					//		client_id: clientResult.client_id,
+					//		firstName: clientResult.first_name,
+					//		lastName: clientResult.last_name,
+					//		address: clientResult.address,
+					//		city: clientResult.city,
+					//		state:clientResult.state,
+					//		zipCode: clientResult.zip,
+					//		phoneNumber: clientResult.phone_number,
+					//		email: clientResult.email
+					//};
 					if(req.hasOwnProperty("isQueue")) {
 						var response = {
 								code: 200,
-								client:client
+								client:clientResult
 						};
 						res(null,response);
 					} else {
-						res.send(client);
+						res.send(clientResult);
 					}
 				} else {
 					if(req.hasOwnProperty("isQueue")) {
@@ -79,30 +79,30 @@ function getAllClients(req,res) {
 		} else {
 			if(result.length > 0) {
 				var clients = [];
-				for(var i = 0; i < result.length; i++) {
-					var clientResult = result[i];
-					var client = {
-							client_id: clientResult.client_id,
-							firstName: clientResult.first_name,
-							lastName: clientResult.last_name,
-							address: clientResult.address,
-							city: clientResult.city,
-							state:clientResult.state,
-							zipCode: clientResult.zip,
-							phoneNumber: clientResult.phone_number,
-							email: clientResult.email
-					};
-					clients.push(client);
-				}
+				//for(var i = 0; i < result.length; i++) {
+				//	var clientResult = result[i];
+				//	var client = {
+				//			client_id: clientResult.client_id,
+				//			firstName: clientResult.first_name,
+				//			lastName: clientResult.last_name,
+				//			address: clientResult.address,
+				//			city: clientResult.city,
+				//			state:clientResult.state,
+				//			zipCode: clientResult.zip,
+				//			phoneNumber: clientResult.phone_number,
+				//			email: clientResult.email
+				//	};
+				//	clients.push(client);
+				//}
 				if(req.hasOwnProperty("isQueue")) {
 					var response = {
 							code: 200,
-							clients: clients
+							clients: result
 					};
 					res(null,response);
 					
 				} else {
-					res.send(clients);
+					res.send(result);
 				}
 				
 			} else {
@@ -127,13 +127,13 @@ function deleteClient(req,res) {
 }
 
 function verifyCreateParameters(req) {
-	if (typeof req.body.firstName !== 'undefined' && req.body.firstName.length > 2 &&
-			typeof req.body.lastName !== 'undefined'  && req.body.lastName.length > 2 &&
+	if (typeof req.body.first_name !== 'undefined' && req.body.first_name.length > 2 &&
+			typeof req.body.last_name !== 'undefined'  && req.body.last_name.length > 2 &&
 			typeof req.body.address !== 'undefined' && req.body.address.length > 2 &&
 			typeof req.body.city !== 'undefined' && req.body.city.length > 2 &&
 			typeof req.body.state !== 'undefined' && req.body.state.length > 1 &&
-			typeof req.body.zipCode !== 'undefined' && req.body.zipCode.length > 2 &&
-			typeof req.body.phoneNumber !== 'undefined' && req.body.phoneNumber.length > 2 &&
+			typeof req.body.zip_code !== 'undefined' && req.body.zip_code.length > 2 &&
+			typeof req.body.phone_number !== 'undefined' && req.body.phone_number.length > 2 &&
 			typeof req.body.email !== 'undefined' && req.body.email.length > 2 &&
 			typeof req.body.password !== 'undefined' && req.body.password.length > 2) {
 		return true;

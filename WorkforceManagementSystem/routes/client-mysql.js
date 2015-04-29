@@ -74,7 +74,7 @@ function insertNewClientRecord(callback,client) {
 }
 
 function getClientByClientId(client_id,callback) {
-	var query = "select c.client_id,u.first_name,u.last_name,u.address,u.city,u.state,u.zip_code,u.phone_number,u.email " +
+	var query = "select c.client_id,u.first_name,u.last_name,u.address,u.city,u.state,u.zip_code,u.phone_number,u.email,c.start_date,c.end_date,monthly_service_charge,balance " +
 				"from client c " +
 					"left outer join user u on c.client_id = u.user_id " +
 				"where c.client_id = '" + client_id + "'";
@@ -83,7 +83,7 @@ function getClientByClientId(client_id,callback) {
 }
 
 function getAllClients(callback) {
-	var query = "select c.client_id,u.first_name,u.last_name,u.address,u.city,u.state,u.zip_code,u.phone_number,u.email " +
+	var query = "select c.client_id,u.first_name,u.last_name,u.address,u.city,u.state,u.zip_code,u.phone_number,u.email,c.start_date,c.end_date,monthly_service_charge,balance " +
 				"from client c " +
 					"left outer join user u on c.client_id = u.user_id ";
 	console.log(query);

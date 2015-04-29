@@ -33,18 +33,18 @@ function getGuardByGuardId(req,res) {
 			} else {
 				if(result.length > 0) {
 					var guardResult = result[0];
-					var guard = {
-							guard_id: guardResult.guard_id,
-							first_name: guardResult.first_name,
-							last_name: guardResult.last_name,
-							address: guardResult.address,
-							city: guardResult.city,
-							state: guardResult.state,
-							zip: guardResult.zip,
-							phone_number: guardResult.phone_number,
-							email_address: guardResult.email_address
-					};
-					res.send(guard);
+					//var guard = {
+					//		guard_id: guardResult.guard_id,
+					//		first_name: guardResult.first_name,
+					//		last_name: guardResult.last_name,
+					//		address: guardResult.address,
+					//		city: guardResult.city,
+					//		state: guardResult.state,
+					//		zip: guardResult.zip,
+					//		phone_number: guardResult.phone_number,
+					//		email_address: guardResult.email_address
+					//};
+					res.send(guardResult);
 				} else {
 					res.send({});
 				}
@@ -61,29 +61,29 @@ function getAllGuards(req,res) {
 			throw err;
 		} else {
 			if(result.length > 0) {
-				var guards = [];
-				for(var i = 0; i < result.length; i++) {
-					var guardResult = result[i];
-					var guard = {
-							guard_id: guardResult.guard_id,
-							first_name: guardResult.first_name,
-							last_name: guardResult.last_name,
-							address: guardResult.address,
-							city: guardResult.city,
-							state: guardResult.state,
-							zip: guardResult.zip,
-							phone_number: guardResult.phone_number,
-							email_address: guardResult.email_address
-					};
-					guards.push(guard);
-				}
+				//var guards = [];
+				//for(var i = 0; i < result.length; i++) {
+				//	var guardResult = result[i];
+				//	var guard = {
+				//			guard_id: guardResult.guard_id,
+				//			first_name: guardResult.first_name,
+				//			last_name: guardResult.last_name,
+				//			address: guardResult.address,
+				//			city: guardResult.city,
+				//			state: guardResult.state,
+				//			zip: guardResult.zip,
+				//			phone_number: guardResult.phone_number,
+				//			email_address: guardResult.email_address
+				//	};
+				//	guards.push(guard);
+				//}
 				if(req.hasOwnProperty("isQueue")) {
 					var response = {
 							code: 200,
-							guards: guards
+							guards: result
 					}
 				}
-				res.send(guards);
+				res.send(result);
 			} else {
 				res.send({});
 			}
@@ -110,13 +110,13 @@ function updateGuardInfo(req,res) {
 			req.body.hasOwnProperty("city") && req.body.hasOwnProperty("state") && req.body.hasOwnProperty("zipCode") && req.body.hasOwnProperty("phoneNumber") && req.body.hasOwnProperty("email")) {
 		var updateInfo = {
 				guard_id: req.query.guard_id,
-				first_name: req.body.firstName,
-				last_name: req.body.lastName,
+				first_name: req.body.first_name,
+				last_name: req.body.last_name,
 				address: req.body.address,
 				city: req.body.city,
 				state: req.body.state,
-				zip: req.body.zipCode,
-				phone_number: req.body.phoneNumber,
+				zip_code: req.body.zip_code,
+				phone_number: req.body.phone_number,
 				email: req.body.email
 		};
 		mysql.updateGuardInfo(updateInfo, function(err,result) {
@@ -129,12 +129,12 @@ function updateGuardInfo(req,res) {
 
 function verifyCreateParameters(req) {
 	if (typeof req.body.firstName !== 'undefined' && req.body.firstName.length > 2 &&
-			typeof req.body.lastName !== 'undefined'  && req.body.lastName.length > 2 &&
+			typeof req.body.last_name !== 'undefined'  && req.body.last_name.length > 2 &&
 			typeof req.body.address !== 'undefined' && req.body.address.length > 2 &&
 			typeof req.body.city !== 'undefined' && req.body.city.length > 2 &&
 			typeof req.body.state !== 'undefined' && req.body.state.length > 1 &&
-			typeof req.body.zip !== 'undefined' && req.body.zip.length > 2 &&
-			typeof req.body.phoneNumber !== 'undefined' && req.body.phoneNumber.length > 2 &&
+			typeof req.body.zip_code !== 'undefined' && req.body.zip_code.length > 2 &&
+			typeof req.body.phone_number !== 'undefined' && req.body.phone_number.length > 2 &&
 			typeof req.body.email !== 'undefined' && req.body.email.length > 2 &&
 			typeof req.body.password !== 'undefined' && req.body.password.length > 2) {
 		return true;
