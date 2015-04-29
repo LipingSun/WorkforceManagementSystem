@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -38,38 +37,38 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'CMPE273',
-  resave: false,
-  saveUninitialized: true//,
-  //cookie: { maxAge: 15 * 60 * 1000 }
+    secret: 'CMPE273',
+    resave: false,
+    saveUninitialized: true//,
+    //cookie: { maxAge: 15 * 60 * 1000 }
 }));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
 
 //GETS
 app.get('/', routes.index);
-app.get('/user',user.getUserById);
-app.get('/users',user.getAllUsers);
-app.get('/client',client.getClientByClientId);
-app.get('/clients',client.getAllClients);
-app.get('/client/bills',bill.getBillsForClient);
-app.get('/guard',guard.getGuardByGuardId);
-app.get('/guards',guard.getAllGuards);
+app.get('/user', user.getUserById);
+app.get('/users', user.getAllUsers);
+app.get('/client', client.getClientByClientId);
+app.get('/clients', client.getAllClients);
+app.get('/client/bills', bill.getBillsForClient);
+app.get('/guard', guard.getGuardByGuardId);
+app.get('/guards', guard.getAllGuards);
 
 //POSTS
-app.post('/user',user.createUser);
-app.post('/client',client.createClient);
-app.post('/client/bill',bill.createBillForClient);
-app.post('/guard',guard.createGuard);
-app.post('/guard/update',guard.updateGuardInfo);
+app.post('/user', user.createUser);
+app.post('/client', client.createClient);
+app.post('/client/bill', bill.createBillForClient);
+app.post('/guard', guard.createGuard);
+app.post('/guard/update', guard.updateGuardInfo);
 
 //DELETES
-app.delete('/client',client.deleteClient);
-app.delete('/guard',guard.deleteGuard);
+app.delete('/client', client.deleteClient);
+app.delete('/guard', guard.deleteGuard);
 
 //app.get('/users', user.list);
 
@@ -79,13 +78,13 @@ app.delete('/guard',guard.deleteGuard);
 //===============================
 
 //GETS
-app.get('/client-queue/clients',clientqueue.getAllClients);
-app.get('/client-queue/client',clientqueue.getClientByClientId);
-app.get('/guard-queue/guards',guardqueue.getAllGuards);
+app.get('/client-queue/clients', clientqueue.getAllClients);
+app.get('/client-queue/client', clientqueue.getClientByClientId);
+app.get('/guard-queue/guards', guardqueue.getAllGuards);
 //app.get('/guard-queue/guard',guardqueue.getGuardByGuardId);
 
 //POSTS
-app.post('/client-queue/client',clientqueue.createClient);
+app.post('/client-queue/client', clientqueue.createClient);
 //app.post('/guard-queue/guard',guardqueue.createGuard);
 
 //===============================
@@ -96,6 +95,6 @@ app.use('/reports', report);
 app.use('/buildings', building);
 app.use('/login', login);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });
