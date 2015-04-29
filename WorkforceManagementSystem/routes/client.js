@@ -32,7 +32,7 @@ function createClient(req,res) {
 
 function getClientByClientId(req,res) {
 	if(req.query.hasOwnProperty('client_id')) {
-		mysql.getClientByClientId(req.params.id, function(err,result) {
+		mysql.getClientByClientId(req.query.client_id, function(err,result) {
 			if(err) {
 				throw err;
 			} else {
