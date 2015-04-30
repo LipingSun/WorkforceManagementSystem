@@ -66,15 +66,15 @@ function insertNewGuardRecord(callback,guard) {
 		if(err) {
 			throw err;
 		} else {
-			var query = "insert into guard (guard_id, start_date, end_date) values ( " +
-		 	"'" + results.user_id + "'" + "," + "'" + guard.start_date + "'" + "," + "'" + guard.end_date + "'" + ");";
+			var query = "insert into guard (guard_id, start_date, end_date, background_check_status) values ( " +
+		 	"'" + results.user_id + "'" + "," + "'" + guard.start_date + "'" + "," + "'" + guard.end_date + "'" + "," + "'" + guard.background_check_status + "'" + ");";
 			executeQuery(query,callback);
 		}
 	}, guard);
 }
 
 function getGuardByGuardId(guard_id,callback) {
-	var query = "select g.guard_id, g.start_date, g.end_date,u.user_id, u.first_name, u.last_name, u.address, u.city, u.state, u.zip_code, u.phone_number, u.email " +
+	var query = "select g.guard_id, g.start_date, g.end_date, g.background_check_status, u.user_id, u.first_name, u.last_name, u.address, u.city, u.state, u.zip_code, u.phone_number, u.email " +
 				"from guard g " +
 					"left outer join user u on g.guard_id = u.user_id " +
 				"where g.guard_id = '" + guard_id + "'";
@@ -83,7 +83,7 @@ function getGuardByGuardId(guard_id,callback) {
 }
 
 function getAllGuards(callback) {
-	var query = "select g.guard_id, g.start_date, g.end_date, u.first_name, u.last_name, u.address, u.city, u.state, u.zip_code, u.phone_number, u.email " +
+	var query = "select g.guard_id, g.start_date, g.end_date, g.background_check_status, u.first_name, u.last_name, u.address, u.city, u.state, u.zip_code, u.phone_number, u.email " +
 				"from guard g " +
 					"left outer join user u on g.guard_id = u.user_id ";
 	console.log(query);
@@ -96,13 +96,21 @@ function deleteGuard(guard_id,callback) {
 }
 
 function updateGuardInfo(updateInfo,callback) {
-	var query = "update guard g inner join user u on (g.guard_id = u.user_id) " + 
-				"set u.first_name = '" + updateInfo.first_name + "', " + 
-					"u.last_name = '" + updateInfo.last_name + "', u.address = '" + updateInfo.address + "', u.city = '" + updateInfo.city + "', u.zip_code = '" + updateInfo.zip + "', " +
-					"u.phone_number = '" + updateInfo.phone_number + "', u.email = '" + updateInfo.email + "' " + 
+	var query = "update guard g inner join user u on (g.guard_id = u.user_id) " +
+				"set u.first_name = '" + updateInfo.first_name + "', " +
+					"u.last_name = '" + updateInfo.last_name + "', u.address = '" + updateInfo.address + "', u.city = '" + updateInfo.city + "', u.zip_code = '" + updateInfo.zip_code + "', " +
+					"u.phone_number = '" + updateInfo.phone_number + "', u.email = '" + updateInfo.email + "' " +
 				"where g.guard_id = '" + updateInfo.guard_id + "'";
 	executeQuery(query,callback);
 }
+
+function getGuardSchedule(guard_id,callback) {
+    var query = "select * from weekly_schedule where guard_id = '" + guard_id + "'";
+    console.log(query);
+    executeQuery(query,callback);
+}
+
+
 
 exports.getPooledConnection=getPooledConnection;
 exports.insertNewGuardRecord=insertNewGuardRecord;
@@ -110,3 +118,4 @@ exports.getGuardByGuardId=getGuardByGuardId;
 exports.getAllGuards=getAllGuards;
 exports.deleteGuard=deleteGuard;
 exports.updateGuardInfo=updateGuardInfo;
+exports.getGuardSchedule=getGuardSchedule;
