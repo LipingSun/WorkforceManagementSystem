@@ -12,6 +12,7 @@
     "amqp": "*",
     "chance": "*",
     "mysql": "*",
+    "cors": "2.6.0",
     "squel": "*"
   },
   "main": "app.js"

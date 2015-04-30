@@ -18,6 +18,7 @@ var express = require('express')
     , clientqueue = require('./queue/client-queue')
     , guardqueue = require('./queue/guard-queue');
 
+var cors = require('cors');
 var session = require('express-session');
 var report = require('./routes/reports');
 var building = require('./routes/building');
@@ -33,6 +34,7 @@ app.set('ip', process.env.IP || '127.0.0.1');
 // app.set('ip', process.env.OPENSHIFT_NODEJS_IP);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use(cors());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
