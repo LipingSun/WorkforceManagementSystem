@@ -11,8 +11,9 @@ var ERROR_MESSAGE = {
 
 
 function createGuard(req,res) {
-	if(verifyCreateParameters(req) && req.body.hasOwnProperty("start_date") && req.body.hasOwnProperty("end_date")) {
+	if(verifyCreateParameters(req) && req.body.hasOwnProperty("start_date") && req.body.hasOwnProperty("end_date") && req.body.hasOwnProperty("background_check_status")) {
 		var user = req.body;
+		user.user_type = "guard";
 		mysql.insertNewGuardRecord(function(err,result) {
 			if(err) {
 				throw err;
@@ -26,7 +27,7 @@ function createGuard(req,res) {
 }
 
 function getGuardByGuardId(req,res) {
-	if(req.query.hasOwnProperty('guard_id')) {
+	if('guard_id' in req.query) {
 		mysql.getGuardByGuardId(req.query.guard_id, function(err,result) {
 			if(err) {
 				throw err;
@@ -42,7 +43,7 @@ function getGuardByGuardId(req,res) {
 					//		state: guardResult.state,
 					//		zip: guardResult.zip,
 					//		phone_number: guardResult.phone_number,
-					//		email_address: guardResult.email_address
+					//		email: guardResult.email
 					//};
 					res.send(guardResult);
 				} else {
@@ -73,7 +74,7 @@ function getAllGuards(req,res) {
 				//			state: guardResult.state,
 				//			zip: guardResult.zip,
 				//			phone_number: guardResult.phone_number,
-				//			email_address: guardResult.email_address
+				//			email: guardResult.email
 				//	};
 				//	guards.push(guard);
 				//}
@@ -92,7 +93,7 @@ function getAllGuards(req,res) {
 }
 
 function deleteGuard(req,res) {
-	if(req.query.hasOwnProperty("guard_id")) {
+	if("guard_id" in req.query) {
 		mysql.deleteGuard(req.query.guard_id,function(err,result) {
 			if(err) {
 				throw err;
@@ -106,7 +107,7 @@ function deleteGuard(req,res) {
 }
 
 function updateGuardInfo(req,res) {
-	if(req.query.hasOwnProperty("guard_id") && req.body.hasOwnProperty("first_name") && req.body.hasOwnProperty("last_name") && req.body.hasOwnProperty("address") &&
+	if("guard_id" in req.query && req.body.hasOwnProperty("first_name") && req.body.hasOwnProperty("last_name") && req.body.hasOwnProperty("address") &&
 			req.body.hasOwnProperty("city") && req.body.hasOwnProperty("state") && req.body.hasOwnProperty("zip_code") && req.body.hasOwnProperty("phone_number") && req.body.hasOwnProperty("email")) {
 		var updateInfo = {
 				guard_id: req.query.guard_id,
@@ -128,7 +129,7 @@ function updateGuardInfo(req,res) {
 }
 
 function verifyCreateParameters(req) {
-	if (typeof req.body.firstName !== 'undefined' && req.body.firstName.length > 2 &&
+	if (typeof req.body.first_name !== 'undefined' && req.body.first_name.length > 2 &&
 			typeof req.body.last_name !== 'undefined'  && req.body.last_name.length > 2 &&
 			typeof req.body.address !== 'undefined' && req.body.address.length > 2 &&
 			typeof req.body.city !== 'undefined' && req.body.city.length > 2 &&
@@ -143,8 +144,27 @@ function verifyCreateParameters(req) {
 	}
 }
 
+function getGuardSchedule(req, res) {
+	if ('guard_id' in req.params) {
+		mysql.getGuardSchedule(req.params.guard_id, function(err,result) {
+			if(err) {
+				throw err;
+			} else {
+				var schedule = {
+					"guard_id": req.params.guard_id,
+					"schedule": result
+				};
+				res.send(schedule);
+			}
+		});
+	} else {
+		res.send({status:401,message:"Error Occurred: guard_id not provided"});
+	}
+}
+
 exports.createGuard=createGuard;
 exports.getGuardByGuardId=getGuardByGuardId;
 exports.getAllGuards=getAllGuards;
 exports.deleteGuard=deleteGuard;
 exports.updateGuardInfo=updateGuardInfo;
+exports.getGuardSchedule=getGuardSchedule;
