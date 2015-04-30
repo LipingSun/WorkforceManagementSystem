@@ -4,7 +4,7 @@ var user = require('./user-mysql');
 var CONNECTION_POOL = false;
 
 var pool = mysql.createPool({
-	connectionLimit: 10,
+	connectionLimit: 3,
 //	host     : 'us-cdbr-iron-east-02.cleardb.net',
 //    user     : 'b6138a04494eed',
 //    password : 'c592d894',

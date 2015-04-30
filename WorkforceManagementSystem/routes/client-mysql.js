@@ -4,7 +4,7 @@ var CONNECTION_POOL = false;
 var user = require('./user-mysql');
 
 var pool = mysql.createPool({
-	connectionLimit: 10,
+	connectionLimit: 3,
 //	host     : 'us-cdbr-iron-east-02.cleardb.net',
 //    user     : 'b6138a04494eed',
 //    password : 'c592d894',
@@ -66,8 +66,8 @@ function insertNewClientRecord(callback,client) {
 		if(err) {
 			throw err;
 		} else {
-			var query = "insert into client (client_id, start_date, end_date) values ( " +
-		 	"'" + results.user_id + "'" + "," + "'" + client.start_date + "'" + "," + "'" + client.end_date + "'" + ");";
+			var query = "insert into client (client_id, start_date, end_date, monthly_service_charge, balance) values ( " +
+		 	"'" + results.user_id + "'" + "," + "'" + client.start_date + "'" + "," + "'" + client.end_date + "'" + "," + "'" + 0 + "'" + "," + "'" + client.balance + "'" + ");";
 			executeQuery(query,callback);
 		}
 	}, client);
