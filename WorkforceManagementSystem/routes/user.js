@@ -11,16 +11,16 @@ var ERROR_MESSAGE = {
 function createUser(req,res) {
 	if(verifyCreateParameters(req) == true) {
 		var newUser = {
-			firstName: req.body.firstName, 
-			lastName: req.body.lastName, 
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
 			address: req.body.address,
 			city: req.body.city,
 			state: req.body.state,
-			zip: req.body.zip,
-			phoneNumber: req.body.phoneNumber,
-			zip: req.body.zip,
+			zip_code: req.body.zip_code,
+			phone_number: req.body.phone_number,
+			zip_code: req.body.zip_code,
 			password: req.body.password,
-			email_address: req.body.email
+			email: req.body.email
 		};
 		mysql.insertNewUserRecord(function(err, results) {
 			if(err) {
@@ -48,14 +48,14 @@ function getUserById(req,res) {
 				var user = results[0];
 				res.send({
 					id: user.user_id,
-					firstName: user.first_name,
-					lastName: user.last_name,
+					first_name: user.first_name,
+					last_name: user.last_name,
 					address: user.address,
 					city: user.city,
 					state: user.state,
-					zipCode: user.zip,
-					phoneNumber: user.phone_number,
-					email: user.email_address
+					zip_codeCode: user.zip_code,
+					phone_number: user.phone_number,
+					email: user.email
 				});
 //				res.render('user-search',{
 //					id: results.id,
@@ -85,14 +85,14 @@ function getAllUsers(req,res) {
 				var user = result[i];
 				var userObj = {
 						id: user.user_id,
-						firstName: user.first_name,
-						lastName: user.last_name,
+						first_name: user.first_name,
+						last_name: user.last_name,
 						address: user.address,
 						city: user.city,
 						state: user.state,
-						zipCode: user.zip,
-						phoneNumber: user.phone_number,
-						email: user.email_address
+						zip_codeCode: user.zip_code,
+						phone_number: user.phone_number,
+						email: user.email
 				};
 				users.push(userObj);
 			}
@@ -104,13 +104,13 @@ function getAllUsers(req,res) {
 
 
 function verifyCreateParameters(req) {
-	if (typeof req.body.firstName !== 'undefined' && req.body.firstName.length > 2 &&
-			typeof req.body.lastName !== 'undefined'  && req.body.lastName.length > 2 &&
+	if (typeof req.body.first_name !== 'undefined' && req.body.first_name.length > 2 &&
+			typeof req.body.last_name !== 'undefined'  && req.body.last_name.length > 2 &&
 			typeof req.body.address !== 'undefined' && req.body.address.length > 2 &&
 			typeof req.body.city !== 'undefined' && req.body.city.length > 2 &&
 			typeof req.body.state !== 'undefined' && req.body.state.length > 1 &&
-			typeof req.body.zip !== 'undefined' && req.body.zip.length > 2 &&
-			typeof req.body.phoneNumber !== 'undefined' && req.body.phoneNumber.length > 2 &&
+			typeof req.body.zip_code !== 'undefined' && req.body.zip_code.length > 2 &&
+			typeof req.body.phone_number !== 'undefined' && req.body.phone_number.length > 2 &&
 			typeof req.body.email !== 'undefined' && req.body.email.length > 2 &&
 			typeof req.body.password !== 'undefined' && req.body.password.length > 2) {
 		return true;
