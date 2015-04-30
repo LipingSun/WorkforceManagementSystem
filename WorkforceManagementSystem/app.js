@@ -63,6 +63,7 @@ app.get('/clients', client.getAllClients);
 app.get('/client/bills', bill.getBillsForClient);
 app.get('/guard', guard.getGuardByGuardId);
 app.get('/guards', guard.getAllGuards);
+app.get('/guards/:guard_id/schedule', guard.getGuardSchedule);
 
 //POSTS
 app.post('/user', user.createUser);
@@ -70,6 +71,7 @@ app.post('/client', client.createClient);
 app.post('/client/bill', bill.createBillForClient);
 app.post('/guard', guard.createGuard);
 app.post('/guard/update', guard.updateGuardInfo);
+//app.post('/guards/:guard_id/schedule', guard.createGuardSchedule);
 
 //DELETES
 app.delete('/client', client.deleteClient);
