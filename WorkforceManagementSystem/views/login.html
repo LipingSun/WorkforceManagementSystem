@@ -45,7 +45,7 @@
         <form id="loginform" class="form-horizontal" role="form">
           <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input id="username" ng-model="loginForm.username" type="text" class="form-control" name="username" value="" placeholder="username or email">
+            <input id="username" ng-model="loginForm.username" type="text" class="form-control" name="username" value="" placeholder="email">
           </div>
           <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -122,25 +122,23 @@
   app.controller('signCtrl', function($scope, $http) {
     $scope.login = function () {
       $http({
-        method: 'GET',
-        url: '/signin',
-        params: { "username": $scope.loginForm.username, "password": $scope.loginForm.password }
+        method: 'POST',
+        url: '/login',
+        data: { "email": $scope.loginForm.username, "password": $scope.loginForm.password }
 
       }).success(function(res) {
-        alert('login success');
-        window.location.assign('/toDashboard');
+        window.location.assign('/');
       });
     };
     $scope.signup = function () {
       console.log('submit');
       $http({
         method: 'POST',
-        url: '/signup',
+        url: '/register',
         data: { "account": $scope.signupForm}
 
       }).success(function(res) {
         if(res.signup==='Success'){
-          alert('sign up success');
           window.location.assign('/');
         }
       });

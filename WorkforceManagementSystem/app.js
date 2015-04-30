@@ -22,8 +22,7 @@ var cors = require('cors');
 var session = require('express-session');
 var report = require('./routes/reports');
 var building = require('./routes/building');
-var login = require('./routes/login');
-
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -34,6 +33,7 @@ app.set('ip', process.env.IP || '127.0.0.1');
 // app.set('ip', process.env.OPENSHIFT_NODEJS_IP);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(cors());
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -47,20 +47,13 @@ app.use(session({
     saveUninitialized: true//,
     //cookie: { maxAge: 15 * 60 * 1000 }
 }));
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 // development only
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-
 //GETS
-app.get('/', routes.index);
 //app.get('/user', user.getUserById);
 //app.get('/users', user.getAllUsers);
 app.get('/clients/:client_id', client.getClientByClientId);
@@ -102,10 +95,12 @@ app.post('/client-queue/client', clientqueue.createClient);
 //===============================
 //===============================
 
-
+app.use('/', routes.index);
+app.use('/login', auth.login);
+app.use('/register', auth.register);
 app.use('/reports', report);
 app.use('/buildings', building);
-app.use('/login', login);
+
 
 http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
     console.log('Express server listening on port ' + app.get('port'));

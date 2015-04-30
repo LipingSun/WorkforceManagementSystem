@@ -1,7 +1,13 @@
-exports.index = function(req, res){
-  res.render('index');
-};
+var express = require('express');
 
-exports.signin = function(req, res){
-  res.render('login');
-};
+var index = express();
+
+index.all('/', function (req, res) {
+  if ('user' in req.session) {
+    res.render('index.html');
+  } else {
+    res.render('login.html');
+  }
+});
+
+exports.index = index;

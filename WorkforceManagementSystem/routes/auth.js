@@ -2,8 +2,6 @@ var express = require('express');
 var mysql = require('mysql');
 var squel = require('squel');
 
-var login = express();
-
 var connectionPool = mysql.createPool({
     host: 'us-cdbr-iron-east-02.cleardb.net',
     user: 'b6138a04494eed',
@@ -13,8 +11,12 @@ var connectionPool = mysql.createPool({
     //multipleStatements: true
 });
 
+var auth = {};
+auth.login = express();
+auth.register = express();
+
 //GET //login
-login.get('/', function (req, res) {
+auth.login.get('/', function (req, res) {
     console.log('\nGET ' + req.originalUrl);
     if (req.session.user) {
         res.json(200, req.session.user);
@@ -28,7 +30,7 @@ login.get('/', function (req, res) {
 });
 
 //POST /login
-login.post('/', function (req, res) {
+auth.login.post('/', function (req, res) {
     console.log('\nPOST ' + req.originalUrl);
 
     var sql = squel.select().from('user').where('email=' + mysql.escape(req.body.email)).toString();
@@ -59,4 +61,6 @@ login.post('/', function (req, res) {
     });
 });
 
-module.exports = login;
+//auth.register.post();
+
+module.exports = auth;
