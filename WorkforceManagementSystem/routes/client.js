@@ -31,7 +31,7 @@ function createClient(req,res) {
 }
 
 function getClientByClientId(req,res) {
-	if(req.query.hasOwnProperty('client_id')) {
+	if("client_id" in req.query) {
 		mysql.getClientByClientId(req.query.client_id, function(err,result) {
 			if(err) {
 				throw err;
@@ -113,7 +113,7 @@ function getAllClients(req,res) {
 }
 
 function deleteClient(req,res) {
-	if(req.query.hasOwnProperty("client_id")) {
+	if("client_id" in req.query) {
 		mysql.deleteClient(req.query.client_id,function(err,result) {
 			if(err) {
 				throw err;
