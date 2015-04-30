@@ -71,7 +71,7 @@ app.post('/clients', client.createClient);
 app.post('/clients/:client_id/bill', bill.createBillForClient);
 app.post('/guards', guard.createGuard);
 app.post('/guards/:guard_id/update', guard.updateGuardInfo);
-//app.post('/guards/:guard_id/schedule', guard.createGuardSchedule);
+app.post('/guards/:guard_id/schedule', guard.createGuardSchedule);
 
 //DELETES
 app.delete('/clients/:client_id', client.deleteClient);

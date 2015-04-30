@@ -162,9 +162,27 @@ function getGuardSchedule(req, res) {
 	}
 }
 
+function createGuardSchedule(req, res) {
+	if ('guard_id' in req.params) {
+		var schedule = req.body;
+		schedule.guard_id = req.params.guard_id;
+		mysql.createGuardSchedule(schedule, function(err,result) {
+			if(err) {
+				throw err;
+			} else {
+				schedule.schedule_id = String('00000000'+result.insertId).slice(-8);
+				res.send(schedule);
+			}
+		});
+	} else {
+		res.send({status:401,message:"Error Occurred: guard_id not provided"});
+	}
+}
+
 exports.createGuard=createGuard;
 exports.getGuardByGuardId=getGuardByGuardId;
 exports.getAllGuards=getAllGuards;
 exports.deleteGuard=deleteGuard;
 exports.updateGuardInfo=updateGuardInfo;
 exports.getGuardSchedule=getGuardSchedule;
+exports.createGuardSchedule=createGuardSchedule;

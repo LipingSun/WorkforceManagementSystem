@@ -78,7 +78,6 @@ function getGuardByGuardId(guard_id,callback) {
 				"from guard g " +
 					"left outer join user u on g.guard_id = u.user_id " +
 				"where g.guard_id = '" + guard_id + "'";
-	console.log(query);
 	executeQuery(query,callback);
 }
 
@@ -86,7 +85,6 @@ function getAllGuards(callback) {
 	var query = "select g.guard_id, g.start_date, g.end_date, g.background_check_status, u.first_name, u.last_name, u.address, u.city, u.state, u.zip_code, u.phone_number, u.email " +
 				"from guard g " +
 					"left outer join user u on g.guard_id = u.user_id ";
-	console.log(query);
 	executeQuery(query, callback);
 }
 
@@ -106,10 +104,14 @@ function updateGuardInfo(updateInfo,callback) {
 
 function getGuardSchedule(guard_id,callback) {
     var query = "select * from weekly_schedule where guard_id = '" + guard_id + "'";
-    console.log(query);
     executeQuery(query,callback);
 }
 
+function createGuardSchedule(schedule,callback) {
+    var query = "insert into weekly_schedule (guard_id, start_time, end_time, weekday, building_id) values ( " +
+        "'" + schedule.guard_id + "'" + "," + "'" + schedule.start_time + "'" + "," + "'" + schedule.end_time + "'" + "," + "'" + schedule.weekday + "'" + "," + "'" + schedule.building_id + "'" + ");";
+    executeQuery(query,callback);
+}
 
 
 exports.getPooledConnection=getPooledConnection;
@@ -119,3 +121,4 @@ exports.getAllGuards=getAllGuards;
 exports.deleteGuard=deleteGuard;
 exports.updateGuardInfo=updateGuardInfo;
 exports.getGuardSchedule=getGuardSchedule;
+exports.createGuardSchedule=createGuardSchedule;
