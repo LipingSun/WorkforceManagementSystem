@@ -108,13 +108,16 @@ report.get('/list', function (req, res) {
             });
             buildings += ')';
 
-            var sql = squel.select().from('report').where('building_id IN ' + buildings);
+            var sql = squel.select().from('report').where('report.building_id IN ' + buildings);
             if (req.query.start_date) {
                 sql = sql.where('date>=' + mysql.escape(req.query.start_date));
             }
             if (req.query.end_date) {
                 sql = sql.where('date<=' + mysql.escape(req.query.end_date));
             }
+            sql.left_join('user', null, 'report.guard_id = user.user_id');
+            sql.left_join('building', null, "report.building_id = building.building_id");
+            sql.field('report_id').field('report.guard_id').field('user.first_name').field('user.last_name').field('report.building_id').field('building.name').field('report.date');
             sql = sql.toString();
             console.log('DB Query: ' + sql);
             connectionPool.query(sql, function (err, data) {
