@@ -21,7 +21,7 @@ function createClient(req,res) {
 					};
 					res(null,response);
 				} else {
-					res.send({status:200,message:"Sucessful"});
+					res.send({status:200,message:"Successful"});
 				}
 			}
 		}, user)

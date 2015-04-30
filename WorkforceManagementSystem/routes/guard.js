@@ -18,7 +18,7 @@ function createGuard(req,res) {
 			if(err) {
 				throw err;
 			} else {
-				res.send({status:200,message:"Sucessful"});
+				res.send({status:200,message:"Successful"});
 			}
 		}, user)
 	} else {
