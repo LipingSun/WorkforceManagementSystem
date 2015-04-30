@@ -28,6 +28,9 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.set('ip', process.env.IP || '127.0.0.1');
+// app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+// app.set('ip', process.env.OPENSHIFT_NODEJS_IP);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -63,7 +66,7 @@ app.get('/clients', client.getAllClients);
 app.get('/clients/:client_id/bills', bill.getBillsForClient);
 app.get('/guards/:guard_id', guard.getGuardByGuardId);
 app.get('/guards', guard.getAllGuards);
-app.get('/guards/:guard_id/schedule', guard.getGuardSchedule);
+app.get('/guards/:guard_id/schedules', guard.getGuardSchedule);
 
 //POSTS
 //app.post('/user', user.createUser);
@@ -71,7 +74,7 @@ app.post('/clients', client.createClient);
 app.post('/clients/:client_id/bill', bill.createBillForClient);
 app.post('/guards', guard.createGuard);
 app.post('/guards/:guard_id/update', guard.updateGuardInfo);
-app.post('/guards/:guard_id/schedule', guard.createGuardSchedule);
+app.post('/guards/:guard_id/schedules', guard.createGuardSchedule);
 
 //DELETES
 app.delete('/clients/:client_id', client.deleteClient);
@@ -102,6 +105,6 @@ app.use('/reports', report);
 app.use('/buildings', building);
 app.use('/login', login);
 
-http.createServer(app).listen(app.get('port'), function () {
+http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
