@@ -31,8 +31,8 @@ function createClient(req,res) {
 }
 
 function getClientByClientId(req,res) {
-	if("client_id" in req.query) {
-		mysql.getClientByClientId(req.query.client_id, function(err,result) {
+	if("client_id" in req.params) {
+		mysql.getClientByClientId(req.params.client_id, function(err,result) {
 			if(err) {
 				throw err;
 			} else {
@@ -113,8 +113,8 @@ function getAllClients(req,res) {
 }
 
 function deleteClient(req,res) {
-	if("client_id" in req.query) {
-		mysql.deleteClient(req.query.client_id,function(err,result) {
+	if("client_id" in req.params) {
+		mysql.deleteClient(req.params.client_id,function(err,result) {
 			if(err) {
 				throw err;
 			} else {

@@ -24,8 +24,8 @@ function createBillForClient(req,res) {
 }
 
 function getBillsForClient(req,res) {
-	if("client_id" in req.query) {
-		mysql.getBillsForClient(req.query.client_id, function(err,result) {
+	if("client_id" in req.params) {
+		mysql.getBillsForClient(req.params.client_id, function(err,result) {
 			if(err) {
 				throw err;
 			} else {
