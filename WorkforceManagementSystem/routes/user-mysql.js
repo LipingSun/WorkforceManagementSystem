@@ -42,9 +42,9 @@ function insertNewUserRecord(callback,user) {
 	var user_id = chance.ssn();
 	createCrypto(user.password, function(err,pass) {
 		var query = "INSERT INTO user (user_id,first_name,last_name,address,city,state,zip_code,phone_number,password,salt,email) values " +
-		"( "+ "'" + user_id + "'," +  "'" + user.firstName + "'" + "," + "'" + user.lastName + "'" + "," +
-			"'" + user.address + "'" + "," + "'" + user.city + "'" + "," + "'" + user.state + "'" + "," + "'" + user.zip + "'" + "," + 
-			"'" + user.phoneNumber + "'" + "," + pass.key  + "," +  pass.salt + "," + "'" + user.email + "'" +
+		"( "+ "'" + user_id + "'," +  "'" + user.first_name + "'" + "," + "'" + user.last_name + "'" + "," +
+			"'" + user.address + "'" + "," + "'" + user.city + "'" + "," + "'" + user.state + "'" + "," + "'" + user.zip_code + "'" + "," +
+			"'" + user.phone_number + "'" + "," + pass.key  + "," +  pass.salt + "," + "'" + user.email + "'" +
 		" )";
 		console.log(query);
 		if (CONNECTION_POOL) {
@@ -73,13 +73,13 @@ function insertNewUserRecord(callback,user) {
 	});
 }
 
-function getUserProfileData(email_address,callback) {
+function getUserProfileData(email,callback) {
 	var connection = getConnection();
 	var query = 'select is_current,company_name ,city,state ' +
 				'from user u ' +
     				'left outer join linkedin.user_experience ue on u.user_id = ue.user_id ' +
     				'left outer join linkedin.company c on ue.company_id = c.company_id ' +
-				'where u.email = ' + "'" + email_address + "';";
+				'where u.email = ' + "'" + email + "';";
 	connection.query(query, function(err, results){
 		if(err) {
 			throw err;
