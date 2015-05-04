@@ -13,6 +13,7 @@ var connectionPool = mysql.createPool({
 
 var auth = {};
 auth.login = express();
+auth.logout = express();
 auth.register = express();
 
 //GET //login
@@ -59,6 +60,13 @@ auth.login.post('/', function (req, res) {
             });
         }
     });
+});
+
+//ALL /logout
+auth.logout.all('/', function(req, res, next) {
+    req.session.destroy();
+    res.location('/');
+    res.render('login.html');
 });
 
 //auth.register.post();
