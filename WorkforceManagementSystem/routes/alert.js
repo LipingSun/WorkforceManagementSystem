@@ -18,8 +18,11 @@ var connectionPool = mysql.createPool({
 alert.all('/', function (req, res) {
     console.log('\nALL ' + req.originalUrl);
 
-    var sql = squel.select().from('report_item').where('report_item.type="alert"').left_join('report', null, "report_item.report_id = report.report_id")
-        .field('report_item_id').field('time').field('checkpoint_id').field('severity').field('guard_id').field('building_id').field('description');
+    var sql = squel.select().from('report_item').where('report_item.type="alert"').left_join('report', null, 'report_item.report_id = report.report_id').left_join('building', null, 'report.building_id = building.building_id').left_join('user', 'u1', 'u1.user_id=guard_id').left_join('user', 'u2', 'u2.user_id=client_id')
+        .field('report_item_id').field('time').field('checkpoint_id').field('severity').field('description')
+        .field('guard_id').field('u1.first_name', 'guard_first_name').field('u1.last_name', 'guard_last_name')
+        .field('report.building_id').field('building.name')
+        .field('client_id').field('u2.first_name', 'client_first_name').field('u2.last_name', 'client_last_name');
 
     if ('building_id' in req.query) {
         sql = sql.where('building_id=' + mysql.escape(req.query.building_id));

@@ -101,7 +101,7 @@ app.use('/login', auth.login);
 app.use('/logout', auth.logout);
 app.use('/register', auth.register);
 app.use('/reports', report);
-app.use('/alerts',alert)
+app.use('/alerts',alert);
 app.use('/buildings', building);
 
 
