@@ -4,7 +4,11 @@ var index = express();
 
 index.all('/', function (req, res) {
   if ('user' in req.session) {
-    res.render('index.html');
+    switch (req.session.user.type) {
+      case "admin" : res.render('index.html'); break;
+      case "guard" : res.render('guard.html'); break;
+      case "client" : res.render('client.html'); break;
+    }
   } else {
     res.render('login.html');
   }
