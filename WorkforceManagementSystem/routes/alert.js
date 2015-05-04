@@ -16,7 +16,7 @@ var connectionPool = mysql.createPool({
 
 //ALL /alerts
 alert.all('/', function (req, res) {
-    console.log('\nGET ' + req.originalUrl);
+    console.log('\nALL ' + req.originalUrl);
 
     var sql = squel.select().from('report_item').where('report_item.type="alert"').left_join('report', null, "report_item.report_id = report.report_id")
         .field('report_item_id').field('time').field('checkpoint_id').field('severity').field('guard_id').field('building_id').field('description');
