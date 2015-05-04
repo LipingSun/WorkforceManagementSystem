@@ -18,6 +18,9 @@
   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
   <script src="/javascripts/jquery.min.js"></script>
 
+  <link href="/stylesheets/angular-pickadate.css" rel="stylesheet">
+  <script src="/javascripts/angular-pickadate.min.js"></script>
+
   <!-- Custom styles for this template -->
   <link href="/stylesheets/signin.css" rel="stylesheet">
 
@@ -45,16 +48,16 @@
         <form id="loginform" class="form-horizontal" role="form">
           <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-            <input id="username" ng-model="loginForm.username" type="text" class="form-control" name="username" value="" placeholder="email">
+            <input required id="username" ng-model="loginForm.username" type="text" class="form-control" name="username" value="" placeholder="email">
           </div>
           <div style="margin-bottom: 25px" class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="login-password" ng-model="loginForm.password" type="password" class="form-control" name="password" placeholder="password">
+            <input required id="login-password" ng-model="loginForm.password" type="password" class="form-control" name="password" placeholder="password">
           </div>
           <div style="margin-top:10px" class="form-group">
             <!-- Button -->
             <div class="col-sm-12 controls">
-              <input type="button" name="login" value="Login" id="btn-login" class="btn btn-success" ng-click="login()">
+              <input  type="button" name="login" value="Login" id="btn-login" class="btn btn-success" ng-click="login()">
               <a id="btn-signup" href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()" class="btn btn-primary">Sign Up</a>
             </div>
           </div>
@@ -76,31 +79,94 @@
           <div class="form-group">
             <label for="email" class="col-md-3 control-label">Email</label>
             <div class="col-md-9">
-              <input ng-model="signupForm.email" type="text" class="form-control" name="email" placeholder="Email Address">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="firstname" class="col-md-3 control-label">First Name</label>
-            <div class="col-md-9">
-              <input ng-model="signupForm.firstname" type="text" class="form-control" name="firstname" placeholder="First Name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="lastname" class="col-md-3 control-label">Last Name</label>
-            <div class="col-md-9">
-              <input ng-model="signupForm.lastname" type="text" class="form-control" name="lastname" placeholder="Last Name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="username" class="col-md-3 control-label">User Name</label>
-            <div class="col-md-9">
-              <input ng-model="signupForm.username" type="text" class="form-control" name="username" placeholder="User Name">
+              <input required ng-model="signupForm.email" type="email" class="form-control" name="email" placeholder="Email Address">
             </div>
           </div>
           <div class="form-group">
             <label for="password" class="col-md-3 control-label">Password</label>
             <div class="col-md-9">
-              <input ng-model="signupForm.password" type="password" class="form-control" name="password" placeholder="Password">
+              <input required ng-model="signupForm.password" type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="first_name" class="col-md-3 control-label">First Name</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.first_name" type="text" class="form-control" name="first_name" placeholder="First Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="last_name" class="col-md-3 control-label">Last Name</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.last_name" type="text" class="form-control" name="last_name" placeholder="Last Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address" class="col-md-3 control-label">Address</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.address" type="text" class="form-control" name="address" placeholder="Address">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="city" class="col-md-3 control-label">City</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.city" type="text" class="form-control" name="city" placeholder="City">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="state" class="col-md-3 control-label">State</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.state" type="text" class="form-control" name="state" placeholder="State">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="zip_code" class="col-md-3 control-label">Zip Code</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.zip_code" type="text" class="form-control" name="zip_code" placeholder="Zip Code">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone_number" class="col-md-3 control-label">Phone Number</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.phone_number" type="tel" class="form-control" name="phone_number" placeholder="Phone Number">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="user_type" class="col-md-3 control-label">User Type</label>
+            <div class="col-md-9">
+              <select required ng-model="signupForm.user_type" class="form-control">
+                <option value="admin">Admin</option>
+                <option value="client">Client</option>
+                <option value="guard">Guard</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" ng-if="signupForm.user_type === 'client' || signupForm.user_type === 'guard'">
+            <label for="start_date" class="col-md-3 control-label">Start Date</label>
+            <div class="col-md-9">
+              <input required type="date" class="form-control" name="start_date" placeholder="Start Date" ng-click="showStartDatePicker = !showStartDatePicker" value="{{signupForm.start_date}}">
+              <div pickadate ng-show="showStartDatePicker" ng-click="showStartDatePicker = !showStartDatePicker" ng-model="signupForm.start_date"></div>
+            </div>
+          </div>
+          <div class="form-group" ng-if="signupForm.user_type === 'client' || signupForm.user_type === 'guard'">
+            <label for="end_date" class="col-md-3 control-label">End Date</label>
+            <div class="col-md-9">
+              <input required type="date" class="form-control" name="end_date" placeholder="End Date" ng-click="showEndDatePicker = !showEndDatePicker" value="{{signupForm.end_date}}">
+              <div pickadate ng-show="showEndDatePicker" ng-click="showEndDatePicker = !showEndDatePicker" ng-model="signupForm.end_date"></div>
+            </div>
+          </div>
+          <div class="form-group" ng-if="signupForm.user_type === 'client'">
+            <label for="balance" class="col-md-3 control-label">Balance</label>
+            <div class="col-md-9">
+              <input required ng-model="signupForm.balance" type="text" class="form-control" name="balance" placeholder="Balance">
+            </div>
+          </div>
+          <div class="form-group" ng-if="signupForm.user_type === 'guard'">
+            <label for="background_check_status" class="col-md-3 control-label">Background</label>
+            <div class="col-md-9">
+              <select required ng-model="signupForm.background_check_status" class="form-control">
+                <option value="checked">Checked</option>
+                <option value="unchecked">Unchecked</option>
+              </select>
             </div>
           </div>
           <div class="form-group">
@@ -115,10 +181,9 @@
     </div>
   </div>
 </div>
-</div>
 
 <script type="text/javascript">
-  var app = angular.module('myApp', []);
+  var app = angular.module('myApp', ['pickadate']);
   app.controller('signCtrl', function($scope, $http) {
     $scope.login = function () {
       $http({

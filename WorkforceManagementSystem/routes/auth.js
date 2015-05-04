@@ -39,7 +39,8 @@ auth.login.post('/', function (req, res) {
     connectionPool.query(sql, function (err, data) {
         if (!err) {
             console.log('DB Result: ' + JSON.stringify(data));
-            //if (data[0].password === req.body.password) {
+            if (data.length !== 0) {
+                //if (data[0].password === req.body.password) {
                 req.session.regenerate(function (err) {
                     if (!err) {
                         req.session.user = {};
@@ -50,7 +51,8 @@ auth.login.post('/', function (req, res) {
                         res.json(200, req.session.user);
                     }
                 });
-            //}
+                //}
+            }
         } else {
             console.log('DB ERROR: ' + err.message);
             res.json(500, {

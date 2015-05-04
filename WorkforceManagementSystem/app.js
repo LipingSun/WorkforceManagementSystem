@@ -97,7 +97,7 @@ app.post('/client-queue/client', clientqueue.createClient);
 
 app.use('/', routes.index);
 app.use('/login', auth.login);
-app.use('/logout', auth.logout)
+app.use('/logout', auth.logout);
 app.use('/register', auth.register);
 app.use('/reports', report);
 app.use('/buildings', building);
