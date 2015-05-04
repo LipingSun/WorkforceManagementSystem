@@ -25,13 +25,16 @@ alert.all('/', function (req, res) {
         .field('client_id').field('u2.first_name', 'client_first_name').field('u2.last_name', 'client_last_name');
 
     if ('building_id' in req.query) {
-        sql = sql.where('building_id=' + mysql.escape(req.query.building_id));
+        sql = sql.where('report.building_id=' + mysql.escape(req.query.building_id));
+    }
+    if ('client_id' in req.query) {
+        sql = sql.where('building.client_id=' + mysql.escape(req.query.client_id));
     }
     if ('start_date' in req.query) {
-        sql = sql.where('date>=' + mysql.escape(req.query.start_date));
+        sql = sql.where('report.date>=' + mysql.escape(req.query.start_date));
     }
     if ('end_date' in req.query) {
-        sql = sql.where('date<=' + mysql.escape(req.query.end_date));
+        sql = sql.where('report.date<=' + mysql.escape(req.query.end_date));
     }
 
     sql = sql.toString();
