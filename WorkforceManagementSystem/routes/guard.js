@@ -18,7 +18,14 @@ function createGuard(req,res) {
 			if(err) {
 				throw err;
 			} else {
-				res.send({status:200,message:"Successful"});
+				if(req.hasOwnProperty("isQueue")) {
+					var response = {
+						code: 200
+					};
+					res(null,response);
+				} else {
+					res.send({status:200,message:"Successful"});
+				}
 			}
 		}, user)
 	} else {
@@ -45,9 +52,22 @@ function getGuardByGuardId(req,res) {
 					//		phone_number: guardResult.phone_number,
 					//		email: guardResult.email
 					//};
-					res.send(guardResult);
+
+					if(req.hasOwnProperty("isQueue")) {
+						var response = {
+							code: 200,
+							guard:guardResult
+						};
+						res(null,response);
+					} else {
+						res.send(guardResult);
+					}
 				} else {
-					res.send({});
+					if(req.hasOwnProperty("isQueue")) {
+						res(null,{});
+					} else {
+						res.send({});
+					}
 				}
 			}
 		});
@@ -80,11 +100,14 @@ function getAllGuards(req,res) {
 				//}
 				if(req.hasOwnProperty("isQueue")) {
 					var response = {
-							code: 200,
-							guards: result
-					}
+						code: 200,
+						guards: result
+					};
+					res(null,response);
+
+				} else {
+					res.send(result);
 				}
-				res.send(result);
 			} else {
 				res.send({});
 			}

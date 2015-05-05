@@ -55,8 +55,8 @@ if ('development' == app.get('env')) {
 }
 
 //GETS
-//app.get('/user', user.getUserById);
-//app.get('/users', user.getAllUsers);
+app.get('/users/:user_id', user.getUserById);
+app.get('/users', user.getAllUsers);
 app.get('/clients/:client_id', client.getClientByClientId);
 app.get('/clients', client.getAllClients);
 app.get('/clients/:client_id/bill', bill.getBillsForClient);
@@ -76,22 +76,20 @@ app.post('/guards/:guard_id/schedule', guard.createGuardSchedule);
 app.delete('/clients/:client_id', client.deleteClient);
 app.delete('/guards/:guard_id', guard.deleteGuard);
 
-//app.get('/users', user.list);
-
 
 //===============================
 // Queue Based services
 //===============================
 
 //GETS
-app.get('/client-queue/clients', clientqueue.getAllClients);
-app.get('/client-queue/client', clientqueue.getClientByClientId);
-app.get('/guard-queue/guards', guardqueue.getAllGuards);
-//app.get('/guard-queue/guard',guardqueue.getGuardByGuardId);
+app.get('/queue/clients', clientqueue.getAllClients);
+app.get('/queue/clients/:client_id', clientqueue.getClientByClientId);
+app.get('/queue/guards', guardqueue.getAllGuards);
+app.get('/queue/guards/:guard_id',guardqueue.getGuardByGuardId);
 
 //POSTS
-app.post('/client-queue/client', clientqueue.createClient);
-//app.post('/guard-queue/guard',guardqueue.createGuard);
+app.post('/queue/clients', clientqueue.createClient);
+app.post('/queue/guards',guardqueue.createGuard);
 
 //===============================
 //===============================

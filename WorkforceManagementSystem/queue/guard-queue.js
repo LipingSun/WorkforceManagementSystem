@@ -20,7 +20,10 @@ function createGuard(req,res) {
 function getGuardByGuardId(req,res) {
 	var msg_payload = {
 			method: "getGuardByGuardId",
-			query: req.query
+			//query: req.query,
+			params: {
+				guard_id: req.params.guard_id
+			}
 	};
 	mq_client.make_request('guard_queue',msg_payload,function(err,results) {
 		if(err) {

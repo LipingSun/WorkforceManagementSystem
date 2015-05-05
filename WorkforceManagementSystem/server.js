@@ -11,7 +11,7 @@ var cnn = amqp.createConnection({host:'127.0.0.1'});
 
 cnn.on('ready', function(){
 
-	console.log("listening on user queue");
+	console.log("listening on client_queue");
 	cnn.queue('client_queue', function(q){
 		q.subscribe(function(message, headers, deliveryInfo, m){
 			util.log(util.format( deliveryInfo.routingKey, message));

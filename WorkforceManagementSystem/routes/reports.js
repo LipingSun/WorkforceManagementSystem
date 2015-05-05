@@ -10,7 +10,7 @@ var connectionPool = mysql.createPool({
     user: 'b6138a04494eed',
     password: 'c592d894',
     database: 'ad_fcc7aab1bbdc042',
-    connectionLimit: 3//,
+    connectionLimit: 2//,
     //multipleStatements: true
 });
 
@@ -51,12 +51,12 @@ report.get('/:id(\\d+)', function (req, res) {
                         console.log('DB Result: ' + JSON.stringify(data));
 
                         //@formatter:off
-                    report.patrols = data.filter(function (item) {return item.type === 'patrol';});
-                    report.incident_reports = data.filter(function (item) {return item.type === 'incident_report';});
-                    report.parking_violations = data.filter(function (item) {return item.type === 'parking_violation';});
-                    report.maintenance_calls = data.filter(function (item) {return item.type === 'maintenance_call';});
-                    report.calls_for_service = data.filter(function (item) {return item.type === 'call_for_service';});
-                    //@formatter:on
+                        report.patrols = data.filter(function (item) {return item.type === 'patrol';});
+                        report.incident_reports = data.filter(function (item) {return item.type === 'incident_report';});
+                        report.parking_violations = data.filter(function (item) {return item.type === 'parking_violation';});
+                        report.maintenance_calls = data.filter(function (item) {return item.type === 'maintenance_call';});
+                        report.calls_for_service = data.filter(function (item) {return item.type === 'call_for_service';});
+                        //@formatter:on
 
                         res.json(200, report);
                     } else {
@@ -148,97 +148,100 @@ report.get('/list', function (req, res) {
 report.post('/items', function (req, res) {
     console.log('\nPOST ' + req.originalUrl);
 
-    var sql = squel.select().field('report_id').from('report')
-        .where('building_id=' + mysql.escape(req.body.building_id))
-        .where('guard_id=' + mysql.escape(req.body.guard_id))
-        .where('date=' + mysql.escape(req.body.date)).toString()
-        .toString();
-    console.log('DB Query: ' + sql);
-    connectionPool.query(sql, function (err, data) {
-        if (!err) {
-            console.log('DB Result: ' + JSON.stringify(data));
+    if ('building_id' in req.body && 'guard_id' in req.body && 'date' in req.body) {
 
-            if (data.length === 0) {
-                sql = squel.insert().into('report')
-                    .set('building_id', req.body.building_id)
-                    .set('guard_id', req.body.guard_id)
-                    .set('date', req.body.date)
-                    .toString();
-                console.log('DB Query: ' + sql);
-                connectionPool.query(sql, function (err, data) {
-                    if (!err) {
-                        console.log('DB Result: ' + JSON.stringify(data));
+        var sql = squel.select().field('report_id').from('report')
+            .where('building_id=' + mysql.escape(req.body.building_id))
+            .where('guard_id=' + mysql.escape(req.body.guard_id))
+            .where('date=' + mysql.escape(req.body.date))
+            .toString();
+        console.log('DB Query: ' + sql);
+        connectionPool.query(sql, function (err, data) {
+            if (!err) {
+                console.log('DB Result: ' + JSON.stringify(data));
 
-                        req.body.report_id = padDigits(data.insertId, 8);
+                if (data.length === 0) {
+                    sql = squel.insert().into('report')
+                        .set('building_id', req.body.building_id)
+                        .set('guard_id', req.body.guard_id)
+                        .set('date', req.body.date)
+                        .toString();
+                    console.log('DB Query: ' + sql);
+                    connectionPool.query(sql, function (err, data) {
+                        if (!err) {
+                            console.log('DB Result: ' + JSON.stringify(data));
 
-                        var sql = squel.insert().into('report_item')
-                            .set('report_id', data.insertId)
-                            .set('time', req.body.date + ' ' + req.body.time)
-                            .set('type', req.body.type)
-                            .set('checkpoint_id', req.body.checkpoint_id)
-                            .set('description', req.body.description)
-                            .set('severity', req.body.severity)
-                            .toString();
-                        console.log('DB Query: ' + sql);
-                        connectionPool.query(sql, function (err, data) {
-                            if (!err) {
-                                console.log('DB Result: ' + JSON.stringify(data));
-                                req.body.report_item_id = padDigits(data.insertId, 8);
-                                res.json(200, req.body);
-                            } else {
-                                console.log('DB ERROR: ' + err.message);
-                                res.json(500, {
-                                    'message': 'Error occurred',
-                                    'success': false,
-                                    'status': 500
-                                });
-                            }
-                        });
-                    } else {
-                        console.log('DB ERROR: ' + err.message);
-                        res.json(500, {
-                            'message': 'Error occurred',
-                            'success': false,
-                            'status': 500
-                        });
-                    }
-                });
+                            req.body.report_id = padDigits(data.insertId, 8);
+
+                            var sql = squel.insert().into('report_item')
+                                .set('report_id', data.insertId)
+                                .set('time', req.body.date + ' ' + req.body.time)
+                                .set('type', req.body.type)
+                                .set('checkpoint_id', req.body.checkpoint_id)
+                                .set('description', req.body.description)
+                                .set('severity', req.body.severity)
+                                .toString();
+                            console.log('DB Query: ' + sql);
+                            connectionPool.query(sql, function (err, data) {
+                                if (!err) {
+                                    console.log('DB Result: ' + JSON.stringify(data));
+                                    req.body.report_item_id = padDigits(data.insertId, 8);
+                                    res.json(200, req.body);
+                                } else {
+                                    console.log('DB ERROR: ' + err.message);
+                                    res.json(500, {
+                                        'message': 'Error occurred',
+                                        'success': false,
+                                        'status': 500
+                                    });
+                                }
+                            });
+                        } else {
+                            console.log('DB ERROR: ' + err.message);
+                            res.json(500, {
+                                'message': 'Error occurred',
+                                'success': false,
+                                'status': 500
+                            });
+                        }
+                    });
+                } else {
+                    req.body.report_id = padDigits(data[0].report_id, 8);
+
+                    sql = squel.insert().into('report_item')
+                        .set('report_id', data[0].report_id)
+                        .set('time', req.body.date + ' ' + req.body.time)
+                        .set('type', req.body.type)
+                        .set('checkpoint_id', req.body.checkpoint_id)
+                        .set('description', req.body.description)
+                        .set('severity', req.body.severity)
+                        .toString();
+                    console.log('DB Query: ' + sql);
+                    connectionPool.query(sql, function (err, data) {
+                        if (!err) {
+                            console.log('DB Result: ' + JSON.stringify(data));
+                            req.body.report_item_id = padDigits(data.insertId, 8);
+                            res.json(200, req.body);
+                        } else {
+                            console.log('DB ERROR: ' + err.message);
+                            res.json(500, {
+                                'message': 'Error occurred',
+                                'success': false,
+                                'status': 500
+                            });
+                        }
+                    });
+                }
             } else {
-                req.body.report_id = padDigits(data[0].report_id, 8);
-
-                sql = squel.insert().into('report_item')
-                    .set('report_id', data[0].report_id)
-                    .set('time', req.body.date + ' ' + req.body.time)
-                    .set('type', req.body.type)
-                    .set('checkpoint_id', req.body.checkpoint_id)
-                    .set('description', req.body.description)
-                    .set('severity', req.body.severity)
-                    .toString();
-                console.log('DB Query: ' + sql);
-                connectionPool.query(sql, function (err, data) {
-                    if (!err) {
-                        console.log('DB Result: ' + JSON.stringify(data));
-                        req.body.report_item_id = padDigits(data.insertId, 8);
-                        res.json(200, req.body);
-                    } else {
-                        console.log('DB ERROR: ' + err.message);
-                        res.json(500, {
-                            'message': 'Error occurred',
-                            'success': false,
-                            'status': 500
-                        });
-                    }
+                console.log('DB ERROR: ' + err.message);
+                res.json(500, {
+                    'message': 'Error occurred',
+                    'success': false,
+                    'status': 500
                 });
             }
-        } else {
-            console.log('DB ERROR: ' + err.message);
-            res.json(500, {
-                'message': 'Error occurred',
-                'success': false,
-                'status': 500
-            });
-        }
-    });
+        });
+    }
 });
 
 // DELETE /reports/items/{items_id}

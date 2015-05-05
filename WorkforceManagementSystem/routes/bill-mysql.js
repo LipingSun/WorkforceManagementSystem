@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var MAIN_TABLE = 'bill';
-var CONNECTION_POOL=false;
+var CONNECTION_POOL=true;
 
 var pool = mysql.createPool({
 	connectionLimit: 3,

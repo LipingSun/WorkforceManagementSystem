@@ -41,8 +41,8 @@ function insertNewUserRecord(callback,user) {
 	var chance = new Chance();
 	var user_id = chance.ssn();
 	createCrypto(user.password, function(err,pass) {
-		var query = "INSERT INTO user (user_id,first_name,last_name,address,city,state,zip_code,phone_number,password,salt,email) values " +
-		"( "+ "'" + user_id + "'," +  "'" + user.first_name + "'" + "," + "'" + user.last_name + "'" + "," +
+		var query = "INSERT INTO user (user_id,user_type,first_name,last_name,address,city,state,zip_code,phone_number,password,salt,email) values " +
+		"( "+ "'" + user_id + "'," +  "'" + user.user_type + "'"  + "," +  "'" + user.first_name + "'" + "," + "'" + user.last_name + "'" + "," +
 			"'" + user.address + "'" + "," + "'" + user.city + "'" + "," + "'" + user.state + "'" + "," + "'" + user.zip_code + "'" + "," +
 			"'" + user.phone_number + "'" + "," + pass.key  + "," +  pass.salt + "," + "'" + user.email + "'" +
 		" )";

@@ -20,7 +20,10 @@ function createClient(req,res) {
 function getClientByClientId(req,res) {
 	var msg_payload = {
 			method: "getClientByClientId",
-			query: req.query
+			query: req.query,
+			params: {
+				client_id: req.params.client_id
+			}
 	};
 	mq_client.make_request('client_queue',msg_payload,function(err,results) {
 		if(err) {

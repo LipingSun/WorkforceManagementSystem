@@ -47,13 +47,14 @@ function getUserById(req,res) {
 			} else {
 				var user = results[0];
 				res.send({
-					id: user.user_id,
+					user_id: user.user_id,
+					user_type: user.user_type,
 					first_name: user.first_name,
 					last_name: user.last_name,
 					address: user.address,
 					city: user.city,
 					state: user.state,
-					zip_codeCode: user.zip_code,
+					zip_code: user.zip_code,
 					phone_number: user.phone_number,
 					email: user.email
 				});
@@ -80,17 +81,18 @@ function getAllUsers(req,res) {
 		if(err) {
 			throw err;
 		} else {
-			var users = []
+			var users = [];
 			for(var i = 0; i < result.length; i++) {
 				var user = result[i];
 				var userObj = {
-						id: user.user_id,
+						user_id: user.user_id,
+						user_type: user.user_type,
 						first_name: user.first_name,
 						last_name: user.last_name,
 						address: user.address,
 						city: user.city,
 						state: user.state,
-						zip_codeCode: user.zip_code,
+						zip_code: user.zip_code,
 						phone_number: user.phone_number,
 						email: user.email
 				};

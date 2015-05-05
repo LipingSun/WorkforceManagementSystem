@@ -11,6 +11,7 @@ var ERROR_MESSAGE = {
 function createClient(req,res) {
 	if(verifyCreateParameters(req)){
 		var user = req.body;
+		user.user_type = 'client';
 		mysql.insertNewClientRecord(function(err,result) {
 			if(err) {
 				throw err;
@@ -78,7 +79,7 @@ function getAllClients(req,res) {
 			throw err;
 		} else {
 			if(result.length > 0) {
-				var clients = [];
+				//var clients = [];
 				//for(var i = 0; i < result.length; i++) {
 				//	var clientResult = result[i];
 				//	var client = {
