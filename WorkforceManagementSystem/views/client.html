@@ -2,496 +2,512 @@
 <html lang="en" ng-app="myApp">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
-  <script src="../public/stylesheets/ui-bootstrap-tpls-0.12.1.js"></script>
-  <script src="/stylesheets/ui-bootstrap-tpls-0.12.1.js"></script>
-  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-  <title>Workforce Management System</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="../public/stylesheets/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script src="/stylesheets/ui-bootstrap-tpls-0.12.1.js"></script>
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Workforce Management System</title>
 
-  <script src="../public/javascripts/angular.min.js"></script>
-   <script src="/javascripts/angular.min.js"></script>
+    <script src="../public/javascripts/angular.min.js"></script>
+    <script src="/javascripts/angular.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="../public/stylesheets/bootstrap.min.css" />
-   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../public/stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
 
-  <!-- Custom styles for this template -->
-  <link href="../public/stylesheets/dashboard.css" rel="stylesheet" />
-  <link href="/stylesheets/dashboard.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="../public/stylesheets/dashboard.css" rel="stylesheet"/>
+    <link href="/stylesheets/dashboard.css" rel="stylesheet"/>
 
-  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-  <script src="../public/javascripts/ie-emulation-modes-warning.js"></script>
-  <script src="/javascripts/ie-emulation-modes-warning.js"></script>
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../public/javascripts/ie-emulation-modes-warning.js"></script>
+    <script src="/javascripts/ie-emulation-modes-warning.js"></script>
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-  <link rel="stylesheet" href="../public/stylesheets/ng-table.min.css" />
-   <link rel="stylesheet" href="/stylesheets/ng-table.min.css" />
-  <script src="../public/javascripts/ng-table.min.js"></script>
-   <script src="/javascripts/ng-table.min.js"></script>
-
+    <link rel="stylesheet" href="../public/stylesheets/ng-table.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/ng-table.min.css"/>
+    <script src="../public/javascripts/ng-table.min.js"></script>
+    <script src="/javascripts/ng-table.min.js"></script>
 
 
 </head>
 
-<body  ng-controller="DashboardCtrl as DC" ng-init='loadmain()'>
+<body ng-controller="DashboardCtrl as DC" ng-init='loadmain()'>
 
-<nav class="navbar navbar-inverse navbar-fixed-top" >
-  <div class="container-fluid" >
-    <div class="navbar-header" >
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Client</a>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Client</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-init='profile()'>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
+
+            </ul>
+            <!--<form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+              </form>-->
+        </div>
     </div>
-    <div id="navbar" class="navbar-collapse collapse" ng-init='profile()' >
-      <ul class="nav navbar-nav navbar-right">
-       <li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
-        
-      </ul>
-      <!--<form class="navbar-form navbar-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form>-->
-    </div>
-  </div>
 </nav>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar" >
-      <ul class="nav nav-sidebar" ng-init="tab = 0">
-        <li ng-class="{ active:tab === 0 }"><a href ng-click="tab = 0;profile()">Profile <span class="sr-only">(current)</span></a>
-        </li>
-        <li ng-class="{ active:tab === 1 }"><a href ng-click="tab=1;getBuildings()">Buildings</a>
-        </li>
-        <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2;getReports()">Reports</a>
-        </li>
-        <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3;mobile()">Billing</a>
-        </li>
-        <li ng-class="{ active:tab === 4 }"><a href ng-click="tab = 4;alert()">Alerts</a>
-        </li>
-        
-      </ul>
-    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar" ng-init="tab = 0">
+                <li ng-class="{ active:tab === 0 }"><a href ng-click="tab = 0;profile()">Profile
+                    <span class="sr-only">(current)</span></a>
+                </li>
+                <li ng-class="{ active:tab === 1 }"><a href ng-click="tab=1;getBuildings()">Buildings</a>
+                </li>
+                <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2;getReports()">Reports</a>
+                </li>
+                <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3;mobile()">Billing</a>
+                </li>
+                <li ng-class="{ active:tab === 4 }"><a href ng-click="tab = 4;alert()">Alerts</a>
+                </li>
 
-    <div ng-show="tab === 0"   class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Profile</h1>
-      <div class="container">       
-  			<table class="table table-striped">
-   			 <thead>        
-      			</tr>
-   			 </thead>
-   			 <tbody>
-   				 <tr>
-      			  <th>Firstname</th>
-       			 <td>{{info.firstName}}</td>
-    			  <tr>
-       				 <th>Lastname</th>
-        			<td>{{info.lastName}}</td>    
-       			</tr>
-     			  <tr>
-      			  <th>Client ID</th>
-       			 <td>{{info.id}}</td>
-     			  <tr>
-       				 <th>Address</th>
-        			<td>{{info.id}}</td>         
-     			  </tr>
-     			  <tr>
-       				 <th>City</th>
-        			<td>{{info.city}}</td>       
-       			  </tr>
-     			  <tr>
-       				 <th>State</th>
-        			<td>{{info.state}}</td>    
-       
-     			  </tr>
-     			  <tr>
-       				 <th>Zip Code</th>
-        			<td>{{info.zipCode}}</td>     
-       
-     			  </tr>
-     			  <tr>
-       				 <th>Phone Number</th>
-        			<td>{{info.phoneNumber}}</td>
-       
-       
-     			  </tr>
-     			  <tr>
-       				 <th>Email</th>
-        			<td>{{info.email}}</td>          
-     			  </tr>
-     
-      
-    </tbody>
-  </table>
-</div>
-    </div>
+            </ul>
+        </div>
 
-    <div ng-show="tab === 1" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Buildings</h1>
+        <div ng-show="tab === 0" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Profile</h1>
 
-      
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Firstname</th>
+                        <td>{{info.firstName}}</td>
+                    <tr>
+                        <th>Lastname</th>
+                        <td>{{info.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Client ID</th>
+                        <td>{{info.id}}</td>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{info.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{info.city}}</td>
+                    </tr>
+                    <tr>
+                        <th>State</th>
+                        <td>{{info.state}}</td>
+
+                    </tr>
+                    <tr>
+                        <th>Zip Code</th>
+                        <td>{{info.zipCode}}</td>
+
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>{{info.phoneNumber}}</td>
 
 
-      <table ng-table="tableUsers" class="table">
-        <tr ng-repeat="building in DC.buildings">
-          <td data-title="'Building ID'" sortable="'username'">
-            {{building.building_id}}
-          </td>
-          <td data-title="'Address'" >
-            {{building.address}}
-          </td>
-          <td data-title="'Release Date'" sortable="'totalram'">
-            {{building.release_date}}
-          </td>
-          <td data-title="'Service Fee'" sortable="'totaldisk'">
-            {{building.service_fee}}
-          </td>
-          <td data-title="'Check Points'" sortable="'runtime'">
-            
-          </td>
-         
-          
-        </tr>
-      </table>
-    </div>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{info.email}}</td>
+                    </tr>
 
-    <div ng-show="tab === 2" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h1 class="page-header">Reports</h1>
 
-      <label>Building:
-  <span  class="nullable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div ng-show="tab === 1" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Buildings</h1>
+
+
+            <table ng-table="tableUsers" class="table">
+                <tr ng-repeat="building in DC.buildings">
+                    <td data-title="'Building ID'" sortable="'username'">
+                        {{building.building_id}}
+                    </td>
+                    <td data-title="'Address'">
+                        {{building.address}}
+                    </td>
+                    <td data-title="'Release Date'" sortable="'totalram'">
+                        {{building.release_date}}
+                    </td>
+                    <td data-title="'Service Fee'" sortable="'totaldisk'">
+                        {{building.service_fee}}
+                    </td>
+                    <td data-title="'Check Points'" sortable="'runtime'">
+
+                    </td>
+
+
+                </tr>
+            </table>
+        </div>
+
+        <div ng-show="tab === 2" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Reports</h1>
+
+            <label>Building:
+  <span class="nullable">
     <select ng-click='pick(selectedBuilding.building_id)' ng-model="selectedBuilding" ng-options="building.building_id for building in DC.buildings">
-      <option value="">--Please choose a building --</option>
+        <option value="">--Please choose a building --</option>
     </select>
   </span></label><br/>
-<label>Report ID: <input ng-model="search.report_id "></label> <label>Date: <input ng-model="search.date "></label><label>Guard ID: <input ng-model="search.guard_id "></label>
-	 <table  class="table table-hover">
-	 <thead><th>Building ID</th><th>Report ID</th>
-	 <th>Date</th>
-	 <th>Guard ID</th></thead>
-	 <tbody>
-          <tr ng-repeat='item in pickedReports| filter:search' ng-click="getReport(item.report_id)">
-          <td>
-              {{item.building_id}}
-            </td>
-            <td>
-              {{item.report_id}}
-            </td>
-           
-            <td>
-              {{item.date}}
-            </td>
-              <td>
-              {{item.guard_id}}
-            </td>
-          
-          </tr>
-          </tbody>
-        </table>
-     <div ng-show="showReport" class="panel panel-default">
-     
-  		<div class="panel-body"> 
- <span class="pull-right"><span ng-click="showReport=false " class="glyphicon glyphicon-triangle-top"></span></span>
-  <h2>Report</h2>
-  <p>The detail of the report is as below:</p>            
-  <table class="table table-bordered">
-  
-    <tbody>
-      <tr>
-        <th class="info">Property Name</th>
-        <td>{{myReport.building_id}}</td>
-        <th class="info">Guard Id</th>
-        <td>{{myReport.guard_id}}</td>
-        <th class="info">Date</th>
-        <td>{{myReport.date}}</td>
-      </tr>      
-    </tbody>
+            <label>Report ID: <input ng-model="search.report_id "></label> <label>Date: <input ng-model="search.date "></label><label>Guard ID:
+            <input ng-model="search.guard_id "></label>
+            <table class="table table-hover">
+                <thead>
+                <th>Building ID</th>
+                <th>Report ID</th>
+                <th>Date</th>
+                <th>Guard ID</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat='item in pickedReports| filter:search' ng-click="getReport(item.report_id)">
+                    <td>
+                        {{item.building_id}}
+                    </td>
+                    <td>
+                        {{item.report_id}}
+                    </td>
 
-  </table>
+                    <td>
+                        {{item.date}}
+                    </td>
+                    <td>
+                        {{item.guard_id}}
+                    </td>
 
-   <h4>Patrols</h4>	
-    <table class="table table-bordered">
-    <thead>
-    <th class="info">Checkpoint ID</th><th class="info">Date</th><th class="info">Description</th>
-    </thead>
-      <tbody>
-      
-       <tr ng-repeat="patrol in myReport.patrols">
-        <td>{{patrol.checkpoint_id}}</td>
-        <td>{{patrol.date_time}}</td>
-        <td>{{patrol.description}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="showReport" class="panel panel-default">
 
-      </tr>
-      
-    </tbody>
-    
-  </table>
-  <h4>Incidents</h4>
-   <table class="table table-bordered">
-    <thead>
-    <th class="danger">Date</th><th class="danger">Severity</th><th class="danger">Description</th>
-    </thead>
-      <tbody>
-      
-       <tr ng-repeat="incident in myReport.incident_reports">
-        <td>{{incident.date_time}}</td>
-        <td>{{incident.severity}}</td>
-        <td>{{incident.description}}</td>
+                <div class="panel-body">
+                    <span class="pull-right"><span ng-click="showReport=false " class="glyphicon glyphicon-triangle-top"></span></span>
 
-      </tr>
-      
-    </tbody>
-    
-  </table>
-  <h4>Parking Violation</h4>
-   <table class="table table-bordered">
-    <thead>
-    <th class="warning">Date</th> <th class="warning">Description</th>
-    </thead>
-      <tbody>
-      
-       <tr ng-repeat="park in myReport.parking_violations">
-        <td>{{park.date_time}}</td>
-        <td>{{park.description}}</td>
-       
+                    <h2>Report</h2>
 
-      </tr>
-      
-    </tbody>
-    
-  </table>
-  <h4>Maintenance Calls</h4>
-   <table class="table table-bordered">
-    <thead>
-    <th class="danger">Date</th> <th class="danger">Description</th>
-    </thead>
-      <tbody>
-      
-       <tr ng-repeat="main in myReport.maintenance_calls">
-        <td>{{main.date_time}}</td>
-        <td>{{main.description}}</td>
-       
+                    <p>The detail of the report is as below:</p>
+                    <table class="table table-bordered">
 
-      </tr>
-      
-    </tbody>
-    
-  </table>
-   <h4>Call for Sevice</h4>
-   <table class="table table-bordered">
-    <thead>
-    <th class="success">Date</th> <th class="success">>Description</th>
-    </thead>
-      <tbody>
-      
-       <tr ng-repeat="service in myReport.calls_for_service">
-        <td>{{service.date_time}}</td>
-        <td>{{service.description}}</td>
-       
+                        <tbody>
+                        <tr>
+                            <th class="info">Property Name</th>
+                            <td>{{myReport.building_id}}</td>
+                            <th class="info">Guard Id</th>
+                            <td>{{myReport.guard_id}}</td>
+                            <th class="info">Date</th>
+                            <td>{{myReport.date}}</td>
+                        </tr>
+                        </tbody>
 
-      </tr>
-      
-    </tbody>
-    
-  </table>
-   </div>
-</div>
-    </div>
+                    </table>
 
-    <div ng-show="tab === 3" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
+                    <h4>Patrols</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th class="info">Checkpoint ID</th>
+                        <th class="info">Date</th>
+                        <th class="info">Description</th>
+                        </thead>
+                        <tbody>
 
-      <h1 class="page-header">Billing</h1>
-      <div class="container">       
-  			<table class="table table-striped">
-   			 <thead>        
-      			</tr>
-   			 </thead>
-   			 <tbody>
-   				 <tr>
-      			  <th>Balance</th>
-       			 <td>$1000</td>
-    			  <tr>
-       				 <th>Monthly Service Fee</th>
-        			<td>$25</td>    
-       			</tr>
-    </tbody>
-  </table>
-  
-  <button type="button" class="btn btn-primary">Pay Monthly Fee</button>
-  <button type="button" class="btn btn-primary">Deposit</button>
+                        <tr ng-repeat="patrol in myReport.patrols">
+                            <td>{{patrol.checkpoint_id}}</td>
+                            <td>{{patrol.date_time}}</td>
+                            <td>{{patrol.description}}</td>
 
-</div>
-    </div>
+                        </tr>
 
- <div ng-show="tab === 4" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-      <h1 class="page-header">Alerts</h1>
+                        </tbody>
 
-      <label>Building:
-  <span  class="nullable">
+                    </table>
+                    <h4>Incidents</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th class="danger">Date</th>
+                        <th class="danger">Severity</th>
+                        <th class="danger">Description</th>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="incident in myReport.incident_reports">
+                            <td>{{incident.date_time}}</td>
+                            <td>{{incident.severity}}</td>
+                            <td>{{incident.description}}</td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                    <h4>Parking Violation</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th class="warning">Date</th>
+                        <th class="warning">Description</th>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="park in myReport.parking_violations">
+                            <td>{{park.date_time}}</td>
+                            <td>{{park.description}}</td>
+
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                    <h4>Maintenance Calls</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th class="danger">Date</th>
+                        <th class="danger">Description</th>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="main in myReport.maintenance_calls">
+                            <td>{{main.date_time}}</td>
+                            <td>{{main.description}}</td>
+
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                    <h4>Call for Sevice</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th class="success">Date</th>
+                        <th class="success">>Description</th>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="service in myReport.calls_for_service">
+                            <td>{{service.date_time}}</td>
+                            <td>{{service.description}}</td>
+
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="tab === 3" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h1 class="page-header">Billing</h1>
+
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Balance</th>
+                        <td>$1000</td>
+                    <tr>
+                        <th>Monthly Service Fee</th>
+                        <td>$25</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary">Pay Monthly Fee</button>
+                <button type="button" class="btn btn-primary">Deposit</button>
+
+            </div>
+        </div>
+
+        <div ng-show="tab === 4" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Alerts</h1>
+
+            <label>Building:
+  <span class="nullable">
     <select ng-click='pickAlerts(selectedBuilding2.building_id)' ng-model="selectedBuilding2" ng-options="building.building_id for building in DC.buildings">
-      <option value="">--Please choose a building --</option>
+        <option value="">--Please choose a building --</option>
     </select>
   </span></label><br/>
-<label>Report ID: <input ng-model="search2.alert_id "></label> 
-<label>Date: <input ng-model="search2.date "></label>
-<label>Time: <input ng-model="search2.time "></label>
-<label>Severity: <input ng-model="search2.severity "></label>
-	 <table  class="table table-hover">
-	 <thead>
-	 	<th>Alert ID</th>
-	 	<th>Date</th>
-	 	<th>Time</th>
-	 	<th>Severity</th></thead>
-	 <tbody>
-          <tr ng-repeat='item in pickedAlerts| filter:search2' ng-click='pickAlert(item.alert_id)'>
-          <td>
-              {{item.alert_id}}
-            </td>
-            <td>
-              {{item.date}}
-            </td>
-           
-            <td>
-              {{item.time}}
-            </td>
-              <td>
-              {{item.severity}}
-            </td>
-          
-          </tr>
-          </tbody>
-        </table>
-<div ng-show="showAlert" class="panel panel-default">
-     
- <div class="panel-body"> 
- <span class="pull-right"><span ng-click="showAlert=false " class="glyphicon glyphicon-triangle-top"></span></span>
-  <h2>Alert</h2>
-  <p>The detail of the alert is as below:</p>            
-  <table class="table table-bordered">
-  
-    <tbody>
-      <tr>
-        <th class="info">Alert ID</th>
-        <td>{{myAlert.alert_id}}</td>
-        <th class="info">Date</th>
-        <td>{{myAlert.date}}</td>
-        <th class="info">Time</th>
-        <td>{{myAlert.time}}</td>
-        <th class="info">Description</th>
-        <td>{{myAlert.description}}</td>
-        <th class="danger">Severity</th>
-        <td>{{myAlert.severity}}</td>
-      </tr>      
-    </tbody>
+            <label>Report ID: <input ng-model="search2.alert_id "></label>
+            <label>Date: <input ng-model="search2.date "></label>
+            <label>Time: <input ng-model="search2.time "></label>
+            <label>Severity: <input ng-model="search2.severity "></label>
+            <table class="table table-hover">
+                <thead>
+                <th>Alert ID</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Severity</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat='item in pickedAlerts| filter:search2' ng-click='pickAlert(item.alert_id)'>
+                    <td>
+                        {{item.alert_id}}
+                    </td>
+                    <td>
+                        {{item.date}}
+                    </td>
 
-  </table>
+                    <td>
+                        {{item.time}}
+                    </td>
+                    <td>
+                        {{item.severity}}
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <div ng-show="showAlert" class="panel panel-default">
+
+                <div class="panel-body">
+                    <span class="pull-right"><span ng-click="showAlert=false " class="glyphicon glyphicon-triangle-top"></span></span>
+
+                    <h2>Alert</h2>
+
+                    <p>The detail of the alert is as below:</p>
+                    <table class="table table-bordered">
+
+                        <tbody>
+                        <tr>
+                            <th class="info">Alert ID</th>
+                            <td>{{myAlert.alert_id}}</td>
+                            <th class="info">Date</th>
+                            <td>{{myAlert.date}}</td>
+                            <th class="info">Time</th>
+                            <td>{{myAlert.time}}</td>
+                            <th class="info">Description</th>
+                            <td>{{myAlert.description}}</td>
+                            <th class="danger">Severity</th>
+                            <td>{{myAlert.severity}}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
 
 
-   </div>
-</div>
+                </div>
+            </div>
+        </div>
+
     </div>
-   
-  </div>
 </div>
 
 <script>
-  var app = angular.module('myApp', ['ngTable']);
-  
-  app.controller('DashboardCtrl',function($scope, $http, ngTableParams) {
-	 var userID='';
-	 var host='http://demo8440210.mockable.io';
-	 var host1='http://demo0716352.mockable.io';
-	 this.buildings=[];
-	 var parent=this;
-    $scope.loadmain=function(){ 
-    	$http.get(host+'/login').success(function(res){
-		userID=res.id;
-		console.log(userID);
-		$http.get(host+'/users/'+userID).success(function(res) {        
-	        $scope.info=res;
-	        console.log(res);
-	        console.log('login success');       
-	      });
-		$http.get(host+'/buildingsOf/'+userID).success(function(res) {
-       		parent.buildings=res;
-       		console.log(res);
-        });  
-		
-    	});
-    	
-    };
-	
+    var app = angular.module('myApp', ['ngTable']);
 
-	$scope.profile=function(){
-	      $http.get(host+'/users/'+userID).success(function(res) {        
-	        $scope.info=res;
-	        console.log(res);
-	        console.log('login success');       
-	      });
-	    };
- 
+    app.controller('DashboardCtrl', function ($scope, $http, ngTableParams) {
+        var userID = '';
+        var host = 'http://demo8440210.mockable.io';
+        var host1 = 'http://demo0716352.mockable.io';
+        this.buildings = [];
+        var parent = this;
+        $scope.loadmain = function () {
+            $http.get(host + '/login').success(function (res) {
+                userID = res.id;
+                console.log(userID);
+                $http.get(host + '/users/' + userID).success(function (res) {
+                    $scope.info = res;
+                    console.log(res);
+                    console.log('login success');
+                });
+                $http.get(host + '/buildingsOf/' + userID).success(function (res) {
+                    parent.buildings = res;
+                    console.log(res);
+                });
+
+            });
+
+        };
 
 
-    $scope.getBuildings=function(){
-      $http.get(host+'/buildingsOf/'+userID).success(function(res) {
-       		parent.buildings=res;
-       		console.log(res);
-        });  
-      };
-    $scope.getReports=function(){
-    	$scope.showReport=false;
-          $http.get(host+'/reports/list?client_id='+userID).success(function(res) {
-           		$scope.reports=res;
-           		console.log(res);
-            });  
-    };
+        $scope.profile = function () {
+            $http.get(host + '/users/' + userID).success(function (res) {
+                $scope.info = res;
+                console.log(res);
+                console.log('login success');
+            });
+        };
 
-   $scope.getReport=function(index){
-	   console.log(index+" is being clicked");
-	   //has to change here
-	   $http.get(host+'/reports/'+userID).success(function(res) {
-      		$scope.showReport=true;
-      		console.log(res);
-      		$scope.myReport=res;
-      		console.log($scope.myReport.building_id);
-       }); 
-   }
-   $scope.pick=function(index){
-	   $http.get(host+'/reports/list?building_id='+index).success(function(res) {
-      		$scope.pickedReports=res;
-      		console.log(res);
-       });  
-   }
-   $scope.pickAlerts=function(index){
-	   $http.get(host+'/alerts?building_id='+index).success(function(res) {
-     		$scope.pickedAlerts=res;
-     		console.log(res);
-      }); 
-   }
-   $scope.pickAlert=function(index){
-	   $http.get(host1+'/alerts/'+index).success(function(res) {
-		    $scope.showAlert=true;
-    		$scope.myAlert=res;
-    		console.log(res);
-     }); 
-   }
-  });
+
+        $scope.getBuildings = function () {
+            $http.get(host + '/buildingsOf/' + userID).success(function (res) {
+                parent.buildings = res;
+                console.log(res);
+            });
+        };
+        $scope.getReports = function () {
+            $scope.showReport = false;
+            $http.get(host + '/reports/list?client_id=' + userID).success(function (res) {
+                $scope.reports = res;
+                console.log(res);
+            });
+        };
+
+        $scope.getReport = function (index) {
+            console.log(index + " is being clicked");
+            //has to change here
+            $http.get(host + '/reports/' + userID).success(function (res) {
+                $scope.showReport = true;
+                console.log(res);
+                $scope.myReport = res;
+                console.log($scope.myReport.building_id);
+            });
+        }
+        $scope.pick = function (index) {
+            $http.get(host + '/reports/list?building_id=' + index).success(function (res) {
+                $scope.pickedReports = res;
+                console.log(res);
+            });
+        }
+        $scope.pickAlerts = function (index) {
+            $http.get(host + '/alerts?building_id=' + index).success(function (res) {
+                $scope.pickedAlerts = res;
+                console.log(res);
+            });
+        }
+        $scope.pickAlert = function (index) {
+            $http.get(host1 + '/alerts/' + index).success(function (res) {
+                $scope.showAlert = true;
+                $scope.myAlert = res;
+                console.log(res);
+            });
+        }
+    });
 </script>
 
 <script>
