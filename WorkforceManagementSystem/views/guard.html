@@ -2,396 +2,445 @@
 <html lang="en" ng-app="myApp">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-  <title>Workforce Management System</title>
+    <title>Workforce Management System</title>
 
-  <script src="/javascripts/angular.min.js"></script>
+    <script src="/javascripts/angular.min.js"></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
 
-  <!-- Custom styles for this template -->
-  <link href="/stylesheets/dashboard.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/stylesheets/dashboard.css" rel="stylesheet"/>
 
-  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-  <!--[if lt IE 9]><script src="/../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-  <script src="/javascripts/ie-emulation-modes-warning.js"></script>
+    <link href="/stylesheets/angular-pickadate.css" rel="stylesheet">
+    <script src="/javascripts/angular-pickadate.min.js"></script>
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="/../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/javascripts/ie-emulation-modes-warning.js"></script>
 
-  <link rel="stylesheet" href="/stylesheets/ng-table.min.css" />
-  <script src="/javascripts/ng-table.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
+    <link rel="stylesheet" href="/stylesheets/ng-table.min.css"/>
+    <script src="/javascripts/ng-table.min.js"></script>
 
 
 </head>
 
-<body  ng-controller="DashboardCtrl">
+<body ng-controller="DashboardCtrl">
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Guard:{{profile.first_name}}</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Guard:{{profile.first_name}}</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
+            </ul>
+        </div>
     </div>
-    <div>
-     <ul class="nav navbar-nav navbar-right">
-         <li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
-      </ul>
-    </div>
-  </div>
 </nav>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar" ng-init="tab = 0" ng-init= "canntWrite = 'false'" >
-        <li ng-class="{ active:tab === 0 }"><a href ng-click="tab = 0;main()">Overview <span class="sr-only">(current)</span></a>
-        </li>
-        <li ng-class="{ active:tab === 1 }"><a href ng-click="tab = 1; update()">Update Profile</a>
-        </li>
-        <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2; schedule()">Schedule</a>
-        </li>
-        <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3; report()">Create Report</a>
-        </li>
-      </ul>
-    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar" ng-init="tab = 0" ng-init="canntWrite = 'false'">
+                <li ng-class="{ active:tab === 0 }"><a href ng-click="tab = 0;main()">Overview
+                    <span class="sr-only">(current)</span></a>
+                </li>
+                <li ng-class="{ active:tab === 1 }"><a href ng-click="tab = 1; update()">Update Profile</a>
+                </li>
+                <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2; schedule()">Schedule</a>
+                </li>
+                <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3; report()">Create Report</a>
+                </li>
+            </ul>
+        </div>
 
-    <div ng-show="tab === 0" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Welcome</h1>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th>{{profile.firstName}}</th>
-          </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <td>GUARD_ID:</td>
-            <td> {{profile.guard_id}}</td>
-          </tr> 
-          <tr>
-            <td>First Name:</td>
-            <td>{{profile.first_name}}</td>
-          </tr> 
-          <tr>
-            <td>Last Name:</td>
-            <td>{{profile.last_name}}</td>
-          </tr> 
-          <tr>
-            <td>Address:</td>
-            <td>{{profile.address}}</td>
-          </tr> 
-          <tr>
-            <td>City:</td>
-            <td>{{profile.city}}</td>
-          </tr> 
-          <tr>
-            <td>State:</td>
-            <td>{{profile.state}}</td>
-          </tr> 
-          <tr>
-            <td>ZipCode:</td>
-            <td>{{profile.zip_code}}</td>
-          </tr> 
-          <tr>
-            <td>Phone Number:</td>
-            <td>{{profile.phone_number}}</td>
-          </tr> 
-          <tr>
-            <td>Email:</td>
-            <td>{{profile.email}}</td>
-          </tr> 
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div ng-show="tab === 0" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Welcome</h1>
 
-    <div ng-show="tab === 1" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Update Profile</h1>
-     
-      <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="id">Guard_ID:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="true" ng-model="profile.guard_id" placeholder={{profile.guard_id}}>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{profile.first_name}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>GUARD_ID:</td>
+                        <td> {{profile.guard_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>First Name:</td>
+                        <td>{{profile.first_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name:</td>
+                        <td>{{profile.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>{{profile.address}}</td>
+                    </tr>
+                    <tr>
+                        <td>City:</td>
+                        <td>{{profile.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>State:</td>
+                        <td>{{profile.state}}</td>
+                    </tr>
+                    <tr>
+                        <td>ZipCode:</td>
+                        <td>{{profile.zip_code}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td>{{profile.phone_number}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{profile.email}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-          </div>
-      </form>
-      <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="first_name">FirstName:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.first_name" placeholder={{profile.first_name}}>
-            </div>
-          </div>
-      </form>
-      <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="last_name">Last Name:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.last_name" placeholder={{profile.last_name}}>
-            </div>
-          </div>
-     </form>
-      <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="address">Address:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.address" placeholder={{profile.address}}>
-            </div>
-          </div>
-        </form>
-      <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="city">City:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.city" placeholder={{profile.city}}>
-            </div>
-          </div>
-        </form>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="state">State:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.state" placeholder={{profile.state}}>
-            </div>
-          </div>
-        </form>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="zip_code">ZipCode:</label>
-            <div class="col-sm-10">
-              <input type="zipCode" class="form-control" ng-readOnly="canntWrite" ng-model="profile.zip_code" placeholder={{profile.zip_code}}>
-            </div>
-          </div>
-        </form>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Email:</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" ng-readOnly="canntWrite" ng-model="profile.email" placeholder={{profile.email}}>
-            </div>
-          </div>
-        </form>
-        <form>
-          <div class="form-group">        
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="update" class="btn btn-default" ng-click= "updateGProfile()">Update</button>
-            </div>
-          </div>
-        </form> 
-    </div>
+        </div>
 
-    <div ng-show="tab === 2" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h1 class="page-header">Schedule</h1>
-      <div class="table-responsive" >
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th>Schedule_ID</th>
-            <th>Building_ID</th>
-            <th>Weekday</th>
-            <th>Start_Time</th>
-            <th>End_Time</th>
-          </tr>
-          </thead>
-          <tbody>
-           <tr ng-repeat="x in schedule">
-             <td>{{x.schedule_id}}</td>
-             <td>{{x.building_id}}</td>
-             <td>{{x.weekday}}</td>
-             <td>{{x.start_time}}</td>
-             <td>{{x.end_time}}</td>
-           </tr> 
-          </tbody>
-        </table>
-      </div>
-    </div>
-     
-    <div ng-show="tab === 3" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-      <h1 class="page-header">Create Report</h1>
-      <div class="row" id="report">
-      	 <form>
-          <div class="form-group" >        
-            <div class="col-sm-3">
-              <label for="type">Type</label>
-              <select ng-model="report.type" ng-options="type for type in types" class="form-control" ></select>
+        <div ng-show="tab === 1" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Update Profile</h1>
+
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="id">Guard_ID:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="true" ng-model="profile.guard_id" placeholder={{profile.guard_id}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="first_name">FirstName:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.first_name" placeholder={{profile.first_name}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="last_name">Last Name:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.last_name" placeholder={{profile.last_name}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="address">Address:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.address" placeholder={{profile.address}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="city">City:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.city" placeholder={{profile.city}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="state">State:</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-readOnly="canntWrite" ng-model="profile.state" placeholder={{profile.state}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="zip_code">ZipCode:</label>
+
+                    <div class="col-sm-10">
+                        <input type="zip_code" class="form-control" ng-readOnly="canntWrite" ng-model="profile.zip_code" placeholder={{profile.zip_code}}>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Email:</label>
+
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" ng-readOnly="canntWrite" ng-model="profile.email" placeholder={{profile.email}}>
+                    </div>
+                </div>
+            </form>
+            <form>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="update" class="btn btn-default" ng-click="updateGProfile()">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-show="tab === 2" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Schedule</h1>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Schedule_ID</th>
+                        <th>Building_ID</th>
+                        <th>Weekday</th>
+                        <th>Start_Time</th>
+                        <th>End_Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in schedule">
+                        <td>{{x.schedule_id}}</td>
+                        <td>{{x.building_id}}</td>
+                        <td>{{x.weekday}}</td>
+                        <td>{{x.start_time}}</td>
+                        <td>{{x.end_time}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-          </div>
-        </form> 
-         <form>
-          <div class="form-group" ng-show = "report.type === 'alert'">        
-            <div class="col-sm-3">
-              <label for="severity">Severity</label>
-              <select ng-model="report.severity" ng-options="severity for severity in severities" class="form-control"></select>
+        </div>
+
+        <div ng-show="tab === 3" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Create Report</h1>
+
+            <div class="row" id="report">
+                <form>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="type">Type</label>
+                            <select ng-model="report.type" ng-options="type for type in types" class="form-control"></select>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group" ng-show="report.type === 'alert'">
+                        <div class="col-sm-3">
+                            <label for="severity">Severity</label>
+                            <select ng-model="report.severity" ng-options="severity for severity in severities" class="form-control"></select>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="building_id">Building_ID</label>
+                            <select ng-model="report.building_id" ng-options="building_id for building_id in buildings" class="form-control"></select>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="checkpoint_id" ng-show="report.type === 'patrol' || report.type === undefined">CheckPoint</label>
+                            <label for="checkpoint_id" ng-show="report.type !== 'patrol' && report.type !== undefined">CheckPoint (Optional)</label>
+                            <select class="form-control" ng-model="report.checkpoint_id" ng-options="item.checkpoint_id for item in Items | selectFromSelected:report.building_id"></select>
+
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form> 
-        <form>
-          <div class="form-group">        
-            <div class="col-sm-3">
-              <label for="building_id">Building_ID</label>
-              <select ng-model="report.building_id" ng-options="building_id for building_id in buildings" class="form-control"></select>
+            <div class="row">
+                <form>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="date">Date</label>
+                            <input required type="date" class="form-control" name="date" placeholder="Date" ng-click="showDatePicker = !showDatePicker" value="{{report.date}}">
+
+                            <div pickadate ng-show="showDatePicker" ng-click="showDatePicker = !showDatePicker" ng-model="report.date"></div>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label class="control-label" for="time">Time</label>
+                            <input type="time" class="form-control" ng-model="report.time" placeholder="00:00 AM">
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form> 
-        <form>
-          <div class="form-group">        
-            <div class="col-sm-3">
-              <label for="checkpoint_id">CheckPoint(Optional)</label>
-              <select class="form-control" ng-model="report.checkpoint_id" ng-options="item.checkpoint_id for item in Items | selectFromSelected:report.building_id"></select>
-              
-            </div>
-          </div>
-        </form>
-     </div> 
-     <div class="row">
-        <form>
-          <div class="form-group" ng-hide = "report.type === 'patrol'">
-            <div class="col-sm-3">
-              <label class="control-label" for="date">Date</label>
-              <input type="date" class="form-control" ng-model="profile.date" placeholder="mm:dd:yy"}>
-            </div>
-          </div>
-        </form>
-        <form>
-          <div class="form-group" ng-hide = "report.type === 'patrol'">
-            <div class="col-sm-3">
-              <label class="control-label" for="time">Time</label>
-              <input type="time" class="form-control" ng-model="profile.time" placeholder="00:00 AM"}>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div>
-        <form>
-          <div class= "form-group">
-            <br>
-            <label class="control-label" for="description">Description</label>
             <div>
-              <textarea ng-style="mycolor" rows="10" cols="110" ng-model="report.description" class="input-xlarge"></textarea>
+                <form>
+                    <div class="form-group">
+                        <br>
+                        <label class="control-label" for="description">Description</label>
+
+                        <div>
+                            <textarea ng-style="mycolor" rows="10" cols="110" ng-model="report.description" class="input-xlarge"></textarea>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form>
-      </div>
-      <div>
-        <form>
-          <div class="form-group">        
-            <div >
-              <button type="submit" style="width:25%" class="btn btn-primary btn-success btn-lg" ng-click= "saveReport()">Submit</button>
+            <div>
+                <form>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" style="width:25%" class="btn btn-primary btn-success btn-lg" ng-click="saveReport()">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form> 
-      </div>
-  </div>
-  
-  
-</div>
-  
+        </div>
 
 
-<script>
-  var app = angular.module('myApp', ['filters']);
-  angular.module('filters', [])
-  .filter('selectFromSelected', function () {
+    </div>
 
-          return function (buildings, buildingId) {
-              var out = new Array(); //buildings;
-              var i = 0;
-              
-              if(buildingId) {
-            	  
-            	  console.log("buildings.length = " + buildings.length);
-                  for(var index = 0; index < buildings.length; index++) {
 
-                      if(buildings[index].building_id === buildingId) {
-                    	  // var tmp = {"building_id":"", "checkpoint_id":""};
-           		          // tmp.building_id = buildings[index].building_id;
-        		          // tmp.checkpoint_id = buildings[index].checkpoint_id;
-                    	  // out[i++] = tmp;
-                    	  out.push(buildings[index]);
-                          // console.log("catch you, building_id = " + buildingId + " checkpoint = " + buildings[index].checkpoint_id);
-                      }
-                  }
-                  
-                  console.log("out.length = " + out.length);
-                  
-                  return out;
-              }
-              else if(!buildingId){
-                  return null;
-              }
-          };
-      });
-  
-  app.controller('DashboardCtrl', function($scope,$http, $filter) {
-  	var host = '';
-  	var userID = '';
-  //	$http.get(host + '/login').success(function(data, status, headers, config) {
-		
-	    $http.post(host + '/login', {"email":"guard", "password":"guard"}).success(function(data, status, headers, config) {
-		console.log(data.id);
-  		userID = data.id;
-  		console.log("test"+ userID);
-  		var test = '';
-    	$http.get('/guards/'+userID).success(function (data) {
+    <script>
+        var host = '';
+        var userID = '';
+        var app = angular.module('myApp', ['filters']);
+        angular.module('filters', ['pickadate'])
+                .filter('selectFromSelected', function () {
 
-  		    test = data;
-  		    $scope.profile = test;
-  		});
-    	$http.get('/guards/'+userID+'/schedule').success(function(data){
-    		$scope.schedule = data.schedule;
-    	});
-    	
-  	});
-  	
-  	$scope.update = function() {
-  		$scope.canntWrite = false; 
-  	};
-  	
-  	$scope.updateGProfile = function() {
-    	$http({
-            method: 'POST',
-            url: '/guards/'+userID+'/update',
-            data: { "firstName": $scope.profile.firstName, 
-            	    "lastName": $scope.profile.lastName, 
-            	    "address": $scope.profile.address, 
-            	    "city": $scope.profile.city, 
-            	    "state": $scope.profile.state, 
-            	    "zipCode": $scope.profile.zipCode, 
-            	    "phoneNumber": $scope.profile.phoneNumber, 
-            	    "email": $scope.profile.email
-                  }
-            
-         }).success(function(response) {
-                 $scope.canntWrite = true;
-             
-                
-                 console.log(response.firstName);
-                
-        }).error(function(error){
-            alert("error");
-        });
-    };
-    
-    $scope.report = function() {
-       $scope.types=["patrol", "incident_report", "parking_violation", "maintenance_call", "call_for_service", "alert"];
-       $scope.severities=["low", "medium", "high", "urgent"];
-      
-       
-       $http.get('/guards/'+userID+'/schedule').success(function(data) {
+                    return function (buildings, buildingId) {
+                        var out = []; //buildings;
+
+                        if (buildingId) {
+
+                            console.log("buildings.length = " + buildings.length);
+                            for (var index = 0; index < buildings.length; index++) {
+
+                                if (buildings[index].building_id === buildingId) {
+                                    // var tmp = {"building_id":"", "checkpoint_id":""};
+                                    // tmp.building_id = buildings[index].building_id;
+                                    // tmp.checkpoint_id = buildings[index].checkpoint_id;
+                                    // out[i++] = tmp;
+                                    out.push(buildings[index]);
+                                    // console.log("catch you, building_id = " + buildingId + " checkpoint = " + buildings[index].checkpoint_id);
+                                }
+                            }
+
+                            console.log("out.length = " + out.length);
+
+                            return out;
+                        }
+                        else if (!buildingId) {
+                            return null;
+                        }
+                    };
+                });
+
+        app.controller('DashboardCtrl', function ($scope, $http, $filter) {
+            $http.get(host + '/login').success(function (data, status, headers, config) {
+
+//	    $http.get(host + '/login', {"email":"guard", "password":"guard"}).success(function(data, status, headers, config) {
+                console.log(data.id);
+                userID = data.id;
+                console.log("test" + userID);
+                var test = '';
+                $http.get('/guards/' + userID).success(function (data) {
+
+                    test = data;
+                    $scope.profile = test;
+                });
+                $http.get('/guards/' + userID + '/schedule').success(function (data) {
+                    $scope.schedule = data.schedule;
+                });
+
+            });
+
+            $scope.update = function () {
+                $scope.canntWrite = false;
+            };
+
+            $scope.updateGProfile = function () {
+                $http({
+                    method: 'POST',
+                    url: '/guards/' + userID + '/update',
+                    data: {
+                        "first_name": $scope.profile.first_name,
+                        "last_name": $scope.profile.last_name,
+                        "address": $scope.profile.address,
+                        "city": $scope.profile.city,
+                        "state": $scope.profile.state,
+                        "zip_code": $scope.profile.zip_code,
+                        "phone_number": $scope.profile.phone_number,
+                        "email": $scope.profile.email
+                    }
+
+                }).success(function (response) {
+                    $scope.canntWrite = true;
+
+
+                    console.log(response.first_name);
+
+                }).error(function (error) {
+                    alert("error");
+                });
+            };
+
+            $scope.report = function () {
+                $scope.types = ["patrol", "incident_report", "parking_violation", "maintenance_call", "call_for_service", "alert"];
+                $scope.severities = ["low", "medium", "high", "urgent"];
+
+
+                $http.get('/guards/' + userID + '/schedule').success(function (data) {
+                    var schedules = data.schedule;
+                    var buildings = [];
+
+                    for (var i = 0; i < schedules.length; i++) {
+                        buildings[i] = schedules[i].building_id;
+                    }
+                    $scope.buildings = buildings;
+                    console.log("buildings' length:" + $scope.buildings.length);
+
+                    var Items = [];
+                    var k = 0;
+                    for (var i = 0; i < $scope.buildings.length; i++) {
+
+                        $http.get('/buildings/' + $scope.buildings[i]).success(function (data) {
+
+                            for (var j = 0; j < data.checkpoints.length; j++) {
+
+                                var tmp = {"building_id": "", "checkpoint_id": ""};
+                                tmp.building_id = data.building_id;
+                                tmp.checkpoint_id = data.checkpoints[j].properties.checkpoint_id;
+                                Items[k] = tmp;
+                                console.log("checkpoint_id = " + data.checkpoints[j].properties.checkpoint_id + " " + Items[k].checkpoint_id);
+                                k++;
+                            }
+                        });
+
+                        $scope.Items = Items;
+                    }
+                });
+                /** old method
+                 $http.get('http://demo8307479.mockable.io/guards/'+userID+'/schedule').success(function(data) {
     	   var schedules = data.schedule;
     	   var buildings = new Array();
     	   
@@ -399,41 +448,10 @@
     		   buildings[i] = schedules[i].building_id;
     	   }
     	   $scope.buildings = buildings;
-    	   console.log("buildings' length:" + $scope.buildings.length);
-    	   
-    	   var Items = new Array();
-    	   var k = 0;
-           for(var i = 0; i <$scope.buildings.length; i++) {
-        	  
-               $http.get('/buildings/'+ $scope.buildings[i]).success(function(data) {
+   	   });
 
-        		   for(var j = 0; j < data.checkpoints.length; j++) {
-        			   
-        			   var tmp = {"building_id":"", "checkpoint_id":""};
-        		       tmp.building_id = data.building_id;
-        		       tmp.checkpoint_id = data.checkpoints[j].properties.checkpoint_id;
-        		       Items[k] = tmp;
-        		       console.log("checkpoint_id = " + data.checkpoints[j].properties.checkpoint_id + " " + Items[k].checkpoint_id);
-        		       k++;
-        		   }
-        	   });
-        	   
-        	   $scope.Items = Items;
-       	   };
-   	   });
-     /** old method 
-       $http.get('http://demo8307479.mockable.io/guards/'+userID+'/schedule').success(function(data) {
-    	   var schedules = data.schedule;
-    	   var buildings = new Array();
-    	   
-    	   for(var i = 0; i < schedules.length; i++) {
-    		   buildings[i] = schedules[i].building_id;
-    	   }
-    	   $scope.buildings = buildings;
-   	   });
-       
-       
-       $http.get('http://demo8307479.mockable.io/guards/'+userID+'/buildings').success(function(data) {
+
+                 $http.get('http://demo8307479.mockable.io/guards/'+userID+'/buildings').success(function(data) {
     	   var Items = new Array();
     	   var k = 0;
     	   
@@ -451,53 +469,57 @@
     	   }
     	   
     	   $scope.Items = Items;
-   	   }); 
-       **/
-    };  
-    
-    $scope.saveReport = function() {
-    	console.log($scope.report.type);
-    	console.log($scope.report.severity);
-    	console.log($scope.report.building_id);
-    	console.log($scope.report.checkpoint_id);
-    	console.log($scope.report.date);
-    	console.log($scope.report.time);
-    	console.log($scope.report.description);
-    	$http({
-            method: 'POST',
-            url: '/guards/reports/items',
-            data: { "type": $scope.report.type, 
-            	    "severity": $scope.report.severity, 
-            	    "building_id": $scope.report.building_id, 
-            	    "checkpoint_id": $scope.report.checkpoint_id, 
-            	    "date": $scope.report.date, 
-            	    "time": $scope.report.time, 
-            	    "description": $scope.report.description
-                  }
-            
-         }).success(function(response) {
-             
-                
-             console.log(response.report_id);
-                
-        }).error(function(error){
-            alert("error");
-        });
-    };
-    
-  });
- 
-</script>
+   	   });
+                 **/
+            };
 
-<!-- Bootstrap core JavaScript
-  ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="/javascripts/jquery.min.js"></script>
-<script src="/javascripts/bootstrap.min.js"></script>
-<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script src="/javascripts/holder.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="/javascripts/ie10-viewport-bug-workaround.js"></script>
+            $scope.saveReport = function () {
+                console.log($scope.report.type);
+                console.log($scope.report.severity);
+                console.log($scope.report.building_id);
+                console.log($scope.report.checkpoint_id);
+                console.log($scope.report.date);
+                console.log($scope.report.time);
+                console.log($scope.report.description);
+                $http({
+                    method: 'POST',
+                    url: '/reports/items',
+                    data: {
+                        "type": $scope.report.type,
+                        "severity": $scope.report.severity,
+                        "building_id": $scope.report.building_id,
+                        "guard_id": userID,
+                        "checkpoint_id": $scope.report.checkpoint_id,
+                        "date": $scope.report.date,
+                        "time": $scope.report.time,
+                        "description": $scope.report.description
+                    }
+
+                }).success(function (response) {
+
+
+                    console.log(response.report_id);
+
+                }).error(function (error) {
+                    alert("error");
+                });
+            }
+            ;
+
+        })
+        ;
+
+    </script>
+
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="/javascripts/holder.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/javascripts/ie10-viewport-bug-workaround.js"></script>
 </body>
 
 </html>

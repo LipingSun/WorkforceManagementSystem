@@ -103,3 +103,14 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+#map-canvas {
+  width: auto;
+  height: 500px;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-color: #CCC;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 5px 7px 10px #888888;
+}

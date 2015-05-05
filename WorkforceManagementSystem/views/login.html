@@ -190,7 +190,6 @@
         method: 'POST',
         url: '/login',
         data: { "email": $scope.loginForm.username, "password": $scope.loginForm.password }
-
       }).success(function(res) {
         window.location.assign('/');
       });
@@ -200,15 +199,13 @@
       $http({
         method: 'POST',
         url: '/register',
-        data: { "account": $scope.signupForm}
-
+        data: $scope.signupForm
       }).success(function(res) {
-        if(res.signup==='Success'){
+        $http.post('/login', $scope.signupForm).success(function (res) {
           window.location.assign('/');
-        }
+        });
       });
     };
-
   });
 </script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
