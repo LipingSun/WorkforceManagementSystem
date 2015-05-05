@@ -13,12 +13,12 @@ function createUser(req,res) {
 		var newUser = {
 			first_name: req.body.first_name,
 			last_name: req.body.last_name,
+			user_type: req.body.user_type,
 			address: req.body.address,
 			city: req.body.city,
 			state: req.body.state,
 			zip_code: req.body.zip_code,
 			phone_number: req.body.phone_number,
-			zip_code: req.body.zip_code,
 			password: req.body.password,
 			email: req.body.email
 		};
@@ -31,7 +31,7 @@ function createUser(req,res) {
 //				req.session.cookie.expires = new Date(Date.now() + newSessionExpireTime);
 //				req.session.cookie.maxAge = newSessionExpireTime;
 //				setLastLogin(req.session.email);
-				res.render('index',{first_name: req.body.first_name});
+				res.send({status:200,message:"Successful"});
 			}
 		},newUser);
 	} else {

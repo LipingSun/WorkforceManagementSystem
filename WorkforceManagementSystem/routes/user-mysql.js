@@ -134,19 +134,21 @@ function createCrypto(pwd,callback) {
 		if(ex) {
 			throw ex;
 		} else {
-			crypto.pbkdf2(pwd, salt, 10000, 32, function(err, key) {
+			console.log('Plain password: ' + pwd);
+			console.log( "Salt: " + salt.toString('hex'));
+
+			crypto.pbkdf2(pwd, salt, 10000, 32, 'sha256',function(err, key) {
 				if(err) {
 					throw err;
 				} else {
-//					console.log("key:" + mysql.escape(key) + "->" + mysql.escape(Buffer(salt, 'binary')));
-					var pass = {
+					console.log("Encrypt key: " + key.toString('hex'));
+		 			var pass = {
 							key: mysql.escape(key),
 							salt: mysql.escape(Buffer(salt,'binary'))
 					};
 					callback(err,pass);
 				}
 			});
-			
 		}
 	});
 }

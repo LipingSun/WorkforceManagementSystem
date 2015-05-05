@@ -1,6 +1,10 @@
 var express = require('express');
 var mysql = require('mysql');
 var squel = require('squel');
+var crypto = require('crypto');
+var guard = require('./guard');
+var client = require('./client');
+var admin = require('./user');
 
 var connectionPool = mysql.createPool({
     host: 'us-cdbr-iron-east-02.cleardb.net',
@@ -40,18 +44,39 @@ auth.login.post('/', function (req, res) {
         if (!err) {
             console.log('DB Result: ' + JSON.stringify(data));
             if (data.length !== 0) {
-                //if (data[0].password === req.body.password) {
-                req.session.regenerate(function (err) {
-                    if (!err) {
-                        req.session.user = {};
-                        req.session.user.id = data[0].user_id;
-                        req.session.user.login = true;
-                        req.session.user.type = data[0].user_type;
-                        res.location('/');
-                        res.json(200, req.session.user);
+                crypto.pbkdf2(req.body.password, data[0].salt, 10000, 32, 'sha256', function(err, key) {
+                    console.log("Encrypt key: " + key.toString('hex'));
+                    if (key.equals(data[0].password)) {
+                        req.session.regenerate(function (err) {
+                            if (!err) {
+                                req.session.user = {};
+                                req.session.user.id = data[0].user_id;
+                                req.session.user.login = true;
+                                req.session.user.type = data[0].user_type;
+                                res.location('/');
+                                res.json(200, req.session.user);
+                                //sql = 'UPDATE user SET last_login=' + mysql.escape(time()) + ' WHERE email=' + req.body.email;
+                                //connectionPool.query(sql, function (err, data) {
+                                //    if (err) console.log("DB ERROR: " + err.message);
+                                //});
+                            }
+                        });
+                    } else {
+                        console.log('Error: incorrect password');
+                        res.json(500, {
+                            'message': 'Incorrect password',
+                            'success': false,
+                            'status': 500
+                        });
                     }
                 });
-                //}
+            } else {
+                console.log('Error: No user');
+                res.json(500, {
+                    'message': "Can't find this user",
+                    'success': false,
+                    'status': 500
+                });
             }
         } else {
             console.log('DB ERROR: ' + err.message);
@@ -71,6 +96,16 @@ auth.logout.all('/', function(req, res, next) {
     res.render('login.html');
 });
 
-//auth.register.post();
+auth.register.post('/', function (req, res) {
+    if (req.body.user_type === 'admin') {
+        admin.createUser(req, res);
+    }
+    if (req.body.user_type === 'client') {
+        client.createUser(req, res);
+    }
+    if (req.body.user_type === 'guard') {
+        guard.createUser(req, res);
+    }
+});
 
 module.exports = auth;
