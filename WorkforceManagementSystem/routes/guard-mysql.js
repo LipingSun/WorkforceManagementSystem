@@ -52,7 +52,7 @@ function executeQuery(query,callback) {
 		var connection = getConnection();
 		connection.query(query, function(err,result) {
 			if(err) {
-				throw err;
+				console.log('Error: ' + err);
 			} else {
 				callback(err,result);
 			}
