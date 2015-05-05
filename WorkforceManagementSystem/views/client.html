@@ -61,7 +61,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-init='profile()'>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
+                <li><a href="#"><span class='glyphicon glyphicon-log-out'></span> Log Out</a></li>
 
             </ul>
             <!--<form class="navbar-form navbar-right">
@@ -78,7 +78,7 @@
                 <li ng-class="{ active:tab === 0 }"><a href ng-click="tab = 0;profile()">Profile
                     <span class="sr-only">(current)</span></a>
                 </li>
-                <li ng-class="{ active:tab === 1 }"><a href ng-click="tab=1;getBuildings()">Buildings</a>
+                <li ng-class="{ active:tab === 1 }"><a href ng-click="tab = 1;getBuildings()">Buildings</a>
                 </li>
                 <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2;getReports()">Reports</a>
                 </li>
@@ -101,17 +101,17 @@
                     <tbody>
                     <tr>
                         <th>Firstname</th>
-                        <td>{{info.firstName}}</td>
+                        <td>{{info.first_name}}</td>
                     <tr>
                         <th>Lastname</th>
-                        <td>{{info.lastName}}</td>
+                        <td>{{info.last_name}}</td>
                     </tr>
                     <tr>
                         <th>Client ID</th>
-                        <td>{{info.id}}</td>
+                        <td>{{info.client_id}}</td>
                     <tr>
                         <th>Address</th>
-                        <td>{{info.id}}</td>
+                        <td>{{info.address}}</td>
                     </tr>
                     <tr>
                         <th>City</th>
@@ -124,12 +124,12 @@
                     </tr>
                     <tr>
                         <th>Zip Code</th>
-                        <td>{{info.zipCode}}</td>
+                        <td>{{info.zip_code}}</td>
 
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td>{{info.phoneNumber}}</td>
+                        <td>{{info.phone_number}}</td>
 
 
                     </tr>
@@ -137,7 +137,14 @@
                         <th>Email</th>
                         <td>{{info.email}}</td>
                     </tr>
-
+                    <tr>
+                        <th>Start Date</th>
+                        <td>{{info.start_date}}</td>
+                    </tr>
+                    <tr>
+                        <th>End Date</th>
+                        <td>{{info.end_date}}</td>
+                    </tr>
 
                     </tbody>
                 </table>
@@ -176,9 +183,9 @@
 
             <label>Building:
   <span class="nullable">
-    <select ng-click='pick(selectedBuilding.building_id)' ng-model="selectedBuilding" ng-options="building.building_id for building in DC.buildings">
+    <select ng-model="selectedBuilding" ng-options="building.building_id for building in DC.buildings">
         <option value="">--Please choose a building --</option>
-    </select>
+    </select><button type="button" ng-click='pick(selectedBuilding.building_id)' class="btn btn-default">Display reports of this building</button>
   </span></label><br/>
             <label>Report ID: <input ng-model="search.report_id "></label> <label>Date: <input ng-model="search.date "></label><label>Guard ID:
             <input ng-model="search.guard_id "></label>
@@ -242,7 +249,7 @@
 
                         <tr ng-repeat="patrol in myReport.patrols">
                             <td>{{patrol.checkpoint_id}}</td>
-                            <td>{{patrol.date_time}}</td>
+                            <td>{{patrol.time}}</td>
                             <td>{{patrol.description}}</td>
 
                         </tr>
@@ -339,10 +346,10 @@
                     <tbody>
                     <tr>
                         <th>Balance</th>
-                        <td>$1000</td>
+                        <td>${{info.balance}}</td>
                     <tr>
                         <th>Monthly Service Fee</th>
-                        <td>$25</td>
+                        <td>${{info.monthly_service_charge}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -358,9 +365,9 @@
 
             <label>Building:
   <span class="nullable">
-    <select ng-click='pickAlerts(selectedBuilding2.building_id)' ng-model="selectedBuilding2" ng-options="building.building_id for building in DC.buildings">
+    <select ng-model="selectedBuilding2" ng-options="building.building_id for building in DC.buildings">
         <option value="">--Please choose a building --</option>
-    </select>
+    </select><button type="button" ng-click='pickAlerts(selectedBuilding2.building_id)' class="btn btn-default">Display alerts of this building</button>
   </span></label><br/>
             <label>Report ID: <input ng-model="search2.alert_id "></label>
             <label>Date: <input ng-model="search2.date "></label>
@@ -374,12 +381,12 @@
                 <th>Severity</th>
                 </thead>
                 <tbody>
-                <tr ng-repeat='item in pickedAlerts| filter:search2' ng-click='pickAlert(item.alert_id)'>
+                <tr ng-repeat='item in pickedAlerts| filter:search2' ng-click='pickAlert(item)'>
                     <td>
-                        {{item.alert_id}}
+                        {{item.report_item_id}}
                     </td>
                     <td>
-                        {{item.date}}
+                        {{item.time}}
                     </td>
 
                     <td>
@@ -401,18 +408,28 @@
 
                     <p>The detail of the alert is as below:</p>
                     <table class="table table-bordered">
-
+                        <thead>
+                        <th class="info">Alert ID</th>
+                        <th class="info">Building</th>
+                        <th class="info">Time</th>
+                        <th class="info">Guard Name</th>
+                        <th class="info">Guard ID</th>
+                        <th class="info">description</th>
+                        <th class="danger">Severity</th>
+                        </thead>
                         <tbody>
                         <tr>
-                            <th class="info">Alert ID</th>
-                            <td>{{myAlert.alert_id}}</td>
-                            <th class="info">Date</th>
-                            <td>{{myAlert.date}}</td>
-                            <th class="info">Time</th>
+
+                            <td>{{myAlert.report_item_id}}</td>
+
+                            <td>{{myAlert.name}}</td>
+
                             <td>{{myAlert.time}}</td>
-                            <th class="info">Description</th>
+                            <td>{{myAlert.guard_first_name}} {{myAlert.guard_last_name}}</td>
+                            <td>{{myAlert.guard_id}}</td>
+
                             <td>{{myAlert.description}}</td>
-                            <th class="danger">Severity</th>
+
                             <td>{{myAlert.severity}}</td>
                         </tr>
                         </tbody>
@@ -432,44 +449,54 @@
 
     app.controller('DashboardCtrl', function ($scope, $http, ngTableParams) {
         var userID = '';
-        var host = 'http://demo8440210.mockable.io';
-        var host1 = 'http://demo0716352.mockable.io';
+        var host = '';
+
         this.buildings = [];
         var parent = this;
         $scope.loadmain = function () {
             $http.get(host + '/login').success(function (res) {
                 userID = res.id;
-                console.log(userID);
-                $http.get(host + '/users/' + userID).success(function (res) {
+                console.log("The user ID is " + userID);
+                $http.get(host + '/clients/' + userID).success(function (res) {
                     $scope.info = res;
-                    console.log(res);
+                    console.log("The user Info is " + res);
                     console.log('login success');
                 });
-                $http.get(host + '/buildingsOf/' + userID).success(function (res) {
-                    parent.buildings = res;
-                    console.log(res);
+                $http.get(host + '/buildings').success(function (res) {
+                    for (var i = 0; i < res.length; i++) {
+
+
+                        if (res[i].client_id === userID) {
+
+                            parent.buildings.push(res[i]);
+                        }
+                    }
+
                 });
-
             });
+            /* $http.post('http://workforce-sjsucmpe.rhcloud.com/login',{"email":"client","password":"client"}).success(function(res){
+             userID=res.id;
+             console.log("The user ID is "+userID);
+             $http.get('http://workforce-sjsucmpe.rhcloud.com'+'/clients/'+userID).success(function(res) {
+             $scope.info=res;
+             console.log("The user Info is "+res);
+             console.log('login success');
+             });
+             $http.get(host+'/buildings').success(function(res) {
+             for (i = 0; i < res.length; i++) {
 
+
+             if(res[i].client_id===userID){
+
+             parent.buildings.push(res[i]);
+             }
+             }
+
+             });
+             }); */
         };
 
 
-        $scope.profile = function () {
-            $http.get(host + '/users/' + userID).success(function (res) {
-                $scope.info = res;
-                console.log(res);
-                console.log('login success');
-            });
-        };
-
-
-        $scope.getBuildings = function () {
-            $http.get(host + '/buildingsOf/' + userID).success(function (res) {
-                parent.buildings = res;
-                console.log(res);
-            });
-        };
         $scope.getReports = function () {
             $scope.showReport = false;
             $http.get(host + '/reports/list?client_id=' + userID).success(function (res) {
@@ -481,32 +508,31 @@
         $scope.getReport = function (index) {
             console.log(index + " is being clicked");
             //has to change here
-            $http.get(host + '/reports/' + userID).success(function (res) {
+            $http.get(host + '/reports/' + index).success(function (res) {
                 $scope.showReport = true;
                 console.log(res);
                 $scope.myReport = res;
                 console.log($scope.myReport.building_id);
             });
-        }
+        };
         $scope.pick = function (index) {
+            console.log("the report is being clicked " + index);
             $http.get(host + '/reports/list?building_id=' + index).success(function (res) {
                 $scope.pickedReports = res;
                 console.log(res);
             });
-        }
+        };
         $scope.pickAlerts = function (index) {
             $http.get(host + '/alerts?building_id=' + index).success(function (res) {
                 $scope.pickedAlerts = res;
                 console.log(res);
             });
-        }
+        };
         $scope.pickAlert = function (index) {
-            $http.get(host1 + '/alerts/' + index).success(function (res) {
-                $scope.showAlert = true;
-                $scope.myAlert = res;
-                console.log(res);
-            });
-        }
+            $scope.showAlert = true;
+            $scope.myAlert = index;
+            console.log(index);
+        };
     });
 </script>
 
