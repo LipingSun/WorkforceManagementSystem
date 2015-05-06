@@ -101,10 +101,10 @@ auth.register.post('/', function (req, res) {
         admin.createUser(req, res);
     }
     if (req.body.user_type === 'client') {
-        client.createUser(req, res);
+        client.createClient(req, res);
     }
     if (req.body.user_type === 'guard') {
-        guard.createUser(req, res);
+        guard.createGuard(req, res);
     }
 });
 
