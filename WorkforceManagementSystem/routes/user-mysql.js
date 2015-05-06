@@ -14,7 +14,7 @@ var pool = mysql.createPool({
 	host : 'localhost',
 	user : 'root',
 	password : 'warri0rs',
-	database : 'wms'
+	database : 'ad_fcc7aab1bbdc042'
 });
 
 function getConnection(){

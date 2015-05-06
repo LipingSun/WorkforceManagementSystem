@@ -28,6 +28,8 @@ var auth = require('./routes/auth');
 var app = express();
 
 // all environments
+app.set('cacheManager',true);
+app.set('connectionPool',false);
 app.set('port', process.env.PORT || 3000);
 app.set('ip', process.env.IP || '127.0.0.1');
 // app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);

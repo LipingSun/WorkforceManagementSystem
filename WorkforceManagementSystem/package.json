@@ -13,7 +13,8 @@
     "chance": "*",
     "mysql": "*",
     "cors": "2.6.0",
-    "squel": "*"
+    "squel": "*",
+    "memory-cache": "*"
   },
   "main": "app.js"
 }
