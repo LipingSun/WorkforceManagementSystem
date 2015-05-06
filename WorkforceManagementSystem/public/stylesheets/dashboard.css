@@ -105,12 +105,19 @@ body {
 }
 
 #map-canvas {
-  width: auto;
-  height: 500px;
+  width: 800px;
+  height: 450px;
   margin-left: 10%;
   margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   background-color: #CCC;
   border-style: solid;
   border-width: 1px;
   box-shadow: 5px 7px 10px #888888;
+  position: absolute;
+}
+
+.location-input{
+  width: 400px !important;
 }

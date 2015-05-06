@@ -7,10 +7,13 @@ var client = require('./client');
 var admin = require('./user');
 
 var connectionPool = mysql.createPool({
-    host: 'us-cdbr-iron-east-02.cleardb.net',
-    user: 'b6138a04494eed',
-    password: 'c592d894',
-    database: 'ad_fcc7aab1bbdc042',
+    //host: 'us-cdbr-iron-east-02.cleardb.net',
+    //user: 'b6138a04494eed',
+    //password: 'c592d894',
+    //database: 'ad_fcc7aab1bbdc042',
+    host     : 'localhost',
+    user     : 'root',
+    database : 'ad_fcc7aab1bbdc042',
     connectionLimit: 2//,
     //multipleStatements: true
 });
@@ -59,6 +62,9 @@ auth.login.post('/', function (req, res) {
                                 //connectionPool.query(sql, function (err, data) {
                                 //    if (err) console.log("DB ERROR: " + err.message);
                                 //});
+                            }
+                            else {
+                                console.log('Auth error: ' + err);
                             }
                         });
                     } else {

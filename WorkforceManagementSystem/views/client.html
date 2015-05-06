@@ -82,7 +82,7 @@
                 </li>
                 <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2;getReports()">Reports</a>
                 </li>
-                <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3;mobile()">Billing</a>
+                <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3;getBill()">Billing</a>
                 </li>
                 <li ng-class="{ active:tab === 4 }"><a href ng-click="tab = 4;alert()">Alerts</a>
                 </li>
@@ -267,7 +267,7 @@
                         <tbody>
 
                         <tr ng-repeat="incident in myReport.incident_reports">
-                            <td>{{incident.date_time}}</td>
+                            <td>{{incident.time}}</td>
                             <td>{{incident.severity}}</td>
                             <td>{{incident.description}}</td>
 
@@ -285,7 +285,7 @@
                         <tbody>
 
                         <tr ng-repeat="park in myReport.parking_violations">
-                            <td>{{park.date_time}}</td>
+                            <td>{{park.time}}</td>
                             <td>{{park.description}}</td>
 
 
@@ -303,7 +303,7 @@
                         <tbody>
 
                         <tr ng-repeat="main in myReport.maintenance_calls">
-                            <td>{{main.date_time}}</td>
+                            <td>{{main.time}}</td>
                             <td>{{main.description}}</td>
 
 
@@ -321,7 +321,7 @@
                         <tbody>
 
                         <tr ng-repeat="service in myReport.calls_for_service">
-                            <td>{{service.date_time}}</td>
+                            <td>{{service.time}}</td>
                             <td>{{service.description}}</td>
 
 
@@ -341,20 +341,26 @@
             <div class="container">
                 <table class="table table-striped">
                     <thead>
-                    </tr>
+                    <th>Bill ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Amount</th>
+                    <th>Operation</th>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th>Balance</th>
-                        <td>${{info.balance}}</td>
-                    <tr>
-                        <th>Monthly Service Fee</th>
-                        <td>${{info.monthly_service_charge}}</td>
+                    <tr ng-repeat="bill in bills">
+                        <td>{{bill.bill_id}}</td>
+                        <td>{{bill.start_date}}</td>
+                        <td>{{bill.end_date}}</td>
+                        <td>{{bill.amount}}</td>
+                        <td>
+                            <button ng-show="bill.paid===0" type="button" class="btn btn-primary">Pay Now</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
 
-                <button type="button" class="btn btn-primary">Pay Monthly Fee</button>
+
                 <button type="button" class="btn btn-primary">Deposit</button>
 
             </div>
@@ -533,6 +539,12 @@
             $scope.myAlert = index;
             console.log(index);
         };
+        $scope.getBill = function () {
+            $http.get(host + '/clients/' + userID + '/bill').success(function (res) {
+                $scope.bills = res;
+                console.log(res);
+            });
+        }
     });
 </script>
 

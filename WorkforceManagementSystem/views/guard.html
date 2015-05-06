@@ -278,9 +278,9 @@
                     <div class="form-group">
                         <div class="col-sm-3">
                             <label class="control-label" for="date">Date</label>
-                            <input required type="date" class="form-control" name="date" placeholder="Date" ng-click="showDatePicker = !showDatePicker" value="{{report.date}}">
+                            <input required type="text" class="form-control" name="date" placeholder="Date" ng-click="showDatePicker = !showDatePicker" value="{{report.date}}">
 
-                            <div pickadate ng-show="showDatePicker" ng-click="showDatePicker = !showDatePicker" ng-model="report.date"></div>
+                            <div pickadate ng-show="showDatePicker" ng-click="showDatePicker = !showDatePicker" ng-model="report.date" format="yyyy-mm-dd"></div>
                         </div>
                     </div>
                 </form>
@@ -288,7 +288,7 @@
                     <div class="form-group">
                         <div class="col-sm-3">
                             <label class="control-label" for="time">Time</label>
-                            <input type="time" class="form-control" ng-model="report.time" placeholder="00:00 AM">
+                            <input type="time" class="form-control" ng-model="report.time">
                         </div>
                     </div>
                 </form>
@@ -315,128 +315,127 @@
                 </form>
             </div>
         </div>
-
-
     </div>
+</div>
 
 
-    <script>
-        var host = '';
-        var userID = '';
-        var app = angular.module('myApp', ['filters']);
-        angular.module('filters', ['pickadate'])
-                .filter('selectFromSelected', function () {
+<script>
+    var host = '';
+    var userID = '';
+    var app = angular.module('myApp', ['filters']);
+    angular.module('filters', ['pickadate'])
+            .filter('selectFromSelected', function () {
 
-                    return function (buildings, buildingId) {
-                        var out = []; //buildings;
+                return function (buildings, buildingId) {
+                    var out = new Array(); //buildings;
 
-                        if (buildingId) {
+                    if (buildingId) {
 
-                            console.log("buildings.length = " + buildings.length);
-                            for (var index = 0; index < buildings.length; index++) {
+                        console.log("buildings.length = " + buildings.length);
+                        for (var index = 0; index < buildings.length; index++) {
 
-                                if (buildings[index].building_id === buildingId) {
-                                    // var tmp = {"building_id":"", "checkpoint_id":""};
-                                    // tmp.building_id = buildings[index].building_id;
-                                    // tmp.checkpoint_id = buildings[index].checkpoint_id;
-                                    // out[i++] = tmp;
-                                    out.push(buildings[index]);
-                                    // console.log("catch you, building_id = " + buildingId + " checkpoint = " + buildings[index].checkpoint_id);
-                                }
+                            if (buildings[index].building_id === buildingId) {
+                                // var tmp = {"building_id":"", "checkpoint_id":""};
+                                // tmp.building_id = buildings[index].building_id;
+                                // tmp.checkpoint_id = buildings[index].checkpoint_id;
+                                // out[i++] = tmp;
+                                out.push(buildings[index]);
+                                // console.log("catch you, building_id = " + buildingId + " checkpoint = " + buildings[index].checkpoint_id);
                             }
-
-                            console.log("out.length = " + out.length);
-
-                            return out;
                         }
-                        else if (!buildingId) {
-                            return null;
-                        }
-                    };
-                });
 
-        app.controller('DashboardCtrl', function ($scope, $http, $filter) {
-            $http.get(host + '/login').success(function (data, status, headers, config) {
+                        console.log("out.length = " + out.length);
 
-//	    $http.get(host + '/login', {"email":"guard", "password":"guard"}).success(function(data, status, headers, config) {
-                userID = data.id;
-//                console.log("userID: " + userID);
-                $http.get('/guards/' + userID).success(function (data) {
-                    $scope.profile = data;
-                });
-                $http.get('/guards/' + userID + '/schedule').success(function (data) {
-                    if (data.schedule) {
-                        $scope.schedule = data.schedule;
+                        return out;
                     }
-                });
+                    else if (!buildingId) {
+                        return null;
+                    }
+                };
             });
 
-            $scope.update = function () {
-                $scope.canntWrite = false;
-            };
+    app.controller('DashboardCtrl', function ($scope, $http, $filter) {
+        $http.get(host + '/login').success(function (data, status, headers, config) {
 
-            $scope.updateGProfile = function () {
-                $http({
-                    method: 'POST',
-                    url: '/guards/' + userID + '/update',
-                    data: {
-                        "first_name": $scope.profile.first_name,
-                        "last_name": $scope.profile.last_name,
-                        "address": $scope.profile.address,
-                        "city": $scope.profile.city,
-                        "state": $scope.profile.state,
-                        "zip_code": $scope.profile.zip_code,
-                        "phone_number": $scope.profile.phone_number,
-                        "email": $scope.profile.email
+//	    $http.get(host + '/login', {"email":"guard", "password":"guard"}).success(function(data, status, headers, config) {
+            userID = data.id;
+//                console.log("userID: " + userID);
+            $http.get('/guards/' + userID).success(function (data) {
+                $scope.profile = data;
+            });
+            $http.get('/guards/' + userID + '/schedule').success(function (data) {
+                if (data.schedule) {
+                    $scope.schedule = data.schedule;
+                }
+            });
+        });
+
+        $scope.update = function () {
+            $scope.canntWrite = false;
+        };
+
+        $scope.updateGProfile = function () {
+            $http({
+                method: 'POST',
+                url: '/guards/' + userID + '/update',
+                data: {
+                    "first_name": $scope.profile.first_name,
+                    "last_name": $scope.profile.last_name,
+                    "address": $scope.profile.address,
+                    "city": $scope.profile.city,
+                    "state": $scope.profile.state,
+                    "zip_code": $scope.profile.zip_code,
+                    "phone_number": $scope.profile.phone_number,
+                    "email": $scope.profile.email
+                }
+
+            }).success(function (response) {
+                $scope.canntWrite = true;
+                console.log(response.first_name);
+            }).error(function (error) {
+                alert("error");
+            });
+        };
+
+        $scope.report = function () {
+            $scope.types = ["patrol", "incident_report", "parking_violation", "maintenance_call", "call_for_service", "alert"];
+            $scope.severities = ["low", "medium", "high", "urgent"];
+
+
+            $http.get('/guards/' + userID + '/schedule').success(function (data) {
+                if (data.schedule) {
+                    var schedules = data.schedule;
+                    var buildings = [];
+
+                    for (var i = 0; i < schedules.length; i++) {
+                        buildings[i] = schedules[i].building_id;
                     }
+                    $scope.buildings = buildings;
+                    console.log("buildings' length:" + $scope.buildings.length);
 
-                }).success(function (response) {
-                    $scope.canntWrite = true;
-                    console.log(response.first_name);
-                }).error(function (error) {
-                    alert("error");
-                });
-            };
+                    var Items = [];
+                    var k = 0;
+                    for (var i = 0; i < $scope.buildings.length; i++) {
 
-            $scope.report = function () {
-                $scope.types = ["patrol", "incident_report", "parking_violation", "maintenance_call", "call_for_service", "alert"];
-                $scope.severities = ["low", "medium", "high", "urgent"];
+                        $http.get('/buildings/' + $scope.buildings[i]).success(function (data) {
 
+                            for (var j = 0; j < data.checkpoints.length; j++) {
 
-                $http.get('/guards/' + userID + '/schedule').success(function (data) {
-                    if (data.schedule) {
-                        var schedules = data.schedule;
-                        var buildings = [];
+                                var tmp = {"building_id": "", "checkpoint_id": ""};
+                                tmp.building_id = data.building_id;
+                                tmp.checkpoint_id = data.checkpoints[j].properties.checkpoint_id;
+                                Items[k] = tmp;
+                                console.log("checkpoint_id = " + data.checkpoints[j].properties.checkpoint_id + " " + Items[k].checkpoint_id);
+                                k++;
+                            }
+                        });
 
-                        for (var i = 0; i < schedules.length; i++) {
-                            buildings[i] = schedules[i].building_id;
-                        }
-                        $scope.buildings = buildings;
-                        console.log("buildings' length:" + $scope.buildings.length);
-
-                        var Items = [];
-                        var k = 0;
-                        for (var i = 0; i < $scope.buildings.length; i++) {
-
-                            $http.get('/buildings/' + $scope.buildings[i]).success(function (data) {
-
-                                for (var j = 0; j < data.checkpoints.length; j++) {
-
-                                    var tmp = {"building_id": "", "checkpoint_id": ""};
-                                    tmp.building_id = data.building_id;
-                                    tmp.checkpoint_id = data.checkpoints[j].properties.checkpoint_id;
-                                    Items[k] = tmp;
-                                    console.log("checkpoint_id = " + data.checkpoints[j].properties.checkpoint_id + " " + Items[k].checkpoint_id);
-                                    k++;
-                                }
-                            });
-
-                            $scope.Items = Items;
-                        }
+                        $scope.Items = Items;
                     }
-                });
-                /** old method
-                 $http.get('http://demo8307479.mockable.io/guards/'+userID+'/schedule').success(function(data) {
+                }
+            });
+            /** old method
+             $http.get('http://demo8307479.mockable.io/guards/'+userID+'/schedule').success(function(data) {
     	   var schedules = data.schedule;
     	   var buildings = new Array();
     	   
@@ -447,7 +446,7 @@
    	   });
 
 
-                 $http.get('http://demo8307479.mockable.io/guards/'+userID+'/buildings').success(function(data) {
+             $http.get('http://demo8307479.mockable.io/guards/'+userID+'/buildings').success(function(data) {
     	   var Items = new Array();
     	   var k = 0;
     	   
@@ -466,56 +465,56 @@
     	   
     	   $scope.Items = Items;
    	   });
-                 **/
-            };
+             **/
+        };
 
-            $scope.saveReport = function () {
-                console.log($scope.report.type);
-                console.log($scope.report.severity);
-                console.log($scope.report.building_id);
-                console.log($scope.report.checkpoint_id);
-                console.log($scope.report.date);
-                console.log($scope.report.time);
-                console.log($scope.report.description);
-                $http({
-                    method: 'POST',
-                    url: '/reports/items',
-                    data: {
-                        "type": $scope.report.type,
-                        "severity": $scope.report.severity,
-                        "building_id": $scope.report.building_id,
-                        "guard_id": userID,
-                        "checkpoint_id": $scope.report.checkpoint_id,
-                        "date": $scope.report.date,
-                        "time": $scope.report.time,
-                        "description": $scope.report.description
-                    }
+        $scope.saveReport = function () {
+            console.log($scope.report.type);
+            console.log($scope.report.severity);
+            console.log($scope.report.building_id);
+            console.log($scope.report.checkpoint_id);
+            console.log($scope.report.date);
+            console.log($scope.report.time);
+            console.log($scope.report.description);
+            $http({
+                method: 'POST',
+                url: '/reports/items',
+                data: {
+                    "type": $scope.report.type,
+                    "severity": $scope.report.severity,
+                    "building_id": $scope.report.building_id,
+                    "guard_id": userID,
+                    "checkpoint_id": $scope.report.checkpoint_id,
+                    "date": $scope.report.date,
+                    "time": $scope.report.time,
+                    "description": $scope.report.description
+                }
 
-                }).success(function (response) {
+            }).success(function (response) {
 
 
-                    console.log(response.report_id);
+                console.log(response.report_id);
 
-                }).error(function (error) {
-                    alert("error");
-                });
-            }
-            ;
-
-        })
+            }).error(function (error) {
+                alert("error");
+            });
+        }
         ;
 
-    </script>
+    })
+    ;
 
-    <!-- Bootstrap core JavaScript
-      ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="/javascripts/holder.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/javascripts/ie10-viewport-bug-workaround.js"></script>
+</script>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/javascripts/jquery.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="/javascripts/holder.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/javascripts/ie10-viewport-bug-workaround.js"></script>
 </body>
 
 </html>

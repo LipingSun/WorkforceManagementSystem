@@ -26,8 +26,9 @@
     <!--<link href="../public/stylesheets/dashboard.css" rel="stylesheet"/>-->
 
 
-    <!-- load the goole maps api-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0jyU5LAJj16vI3cIZ0HDbo2LU6kRNwJ4"></script>
+    <!-- load the google maps api-->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.20&key=AIzaSyC0jyU5LAJj16vI3cIZ0HDbo2LU6kRNwJ4&libraries=geometry"></script>
+    <script src="/javascripts/google-map.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]>
@@ -47,30 +48,6 @@
     <link rel="stylesheet" href="/stylesheets/ng-table.min.css"/>
     <!--<script src="../public/javascripts/ng-table.min.js"></script>-->
     <script src="/javascripts/ng-table.min.js"></script>
-
-    <script type="text/javascript">
-        var map;
-        function initialize() {
-            var mapCanvas = document.getElementById('map-canvas');
-            var mapOptions = {
-                center: new google.maps.LatLng(39.9139, 116.3917),
-                zoom: 11,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map(mapCanvas, mapOptions);
-
-            google.maps.event.addListenerOnce(map, 'idle', function () {
-                google.maps.event.trigger(map, 'resize');
-                map.setCenter(new google.maps.LatLng(39.9139, 116.3917));
-            });
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-
-//        google.maps.event.addListenerOnce(map, 'idle', function() {
-//            google.maps.event.trigger(map, 'resize');
-//        });
-    </script>
 
 </head>
 
@@ -109,7 +86,8 @@
                 </li>
                 <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2;getAllGuards()">Guards</a>
                 </li>
-                <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3;getAllBuildings()">Buildings</a>
+                <li ng-class="{ active:tab === 3 }">
+                    <a href ng-click="tab = 3;getAllBuildings();loadScript()">Buildings</a>
                 </li>
                 <li ng-class="{ active:tab === 4 }"><a href ng-click="tab = 4;getAllReports()">Reports</a>
                 </li>
@@ -119,7 +97,8 @@
         </div>
 
         <div ng-show="tab === 0" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Welcome, Aministrator!</h1>
+            <h1 class="page-header">Welcome, Administrator!</h1>
+            <!--<div id="map-canvas"></div>-->
 
         </div>
 
@@ -419,19 +398,15 @@
                     <tbody>
                     <tr>
                         <td>Building Name:</td>
-                        <td><input type='text' ng-model=building.name></td>
-                    </tr>
-                    <tr>
-                        <td>Address:</td>
-                        <td><input type="text" ng-model=building.address></td>
+                        <td><input type='text' ng-model="building.name"></td>
                     </tr>
                     <tr>
                         <td>Release Date:</td>
-                        <td><input type="text" ng-model=building.release_date></td>
+                        <td><input type="text" ng-model="building.release_date"></td>
                     </tr>
                     <tr>
                         <td>Service Fee ($):</td>
-                        <td><input type="text" ng-model=building.service_fee></td>
+                        <td><input type="text" ng-model="building.service_fee"></td>
                     </tr>
                     <tr>
                         <td>Client:</td>
@@ -440,14 +415,33 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Address:</td>
+                        <td>
+                            <input id="address" type="text" ng-model="building.address" class="location-input">
+                            <input type="button" value="Search" onclick="codeAddress()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td>
+                            <input id="location" type="text" ng-model="building.location" class="location-input">
+                            <input type="button" value="Set" onclick="setLocation()">
+                            <input type="button" value="Clear" onclick="clearLocation()">
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Check Points:</td>
-                        <td><input type="text" ng-model=building.check_points></td>
+                        <td>
+                            <input id="checkpoints" type="text" ng-model="building.check_points" class="location-input">
+                            <input type="button" value="Set" onclick="setCheckPoints()">
+                            <input type="button" value="Clear" onclick="clearCheckPoints()">
+                        </td>
                     </tr>
                     </tbody>
                 </table>
                 <input type="button" value="Save" class="btn btn-sm btn-primary navbar-right" ng-click="createOrEditBuilding(building.building_id)">
             </div>
-            <div id="map-canvas"></div>
+            <div id="map-canvas" ng-show="buildingDetail"></div>
 
         </div>
 
@@ -542,7 +536,7 @@
 
                         <tr ng-repeat="patrol in myReport.patrols">
                             <td>{{patrol.checkpoint_id}}</td>
-                            <td>{{patrol.date_time}}</td>
+                            <td>{{patrol.time}}</td>
                             <td>{{patrol.description}}</td>
 
                         </tr>
@@ -560,7 +554,7 @@
                         <tbody>
 
                         <tr ng-repeat="incident in myReport.incident_reports">
-                            <td>{{incident.date_time}}</td>
+                            <td>{{incident.time}}</td>
                             <td>{{incident.severity}}</td>
                             <td>{{incident.description}}</td>
 
@@ -578,7 +572,7 @@
                         <tbody>
 
                         <tr ng-repeat="park in myReport.parking_violations">
-                            <td>{{park.date_time}}</td>
+                            <td>{{park.time}}</td>
                             <td>{{park.description}}</td>
 
 
@@ -596,7 +590,7 @@
                         <tbody>
 
                         <tr ng-repeat="main in myReport.maintenance_calls">
-                            <td>{{main.date_time}}</td>
+                            <td>{{main.time}}</td>
                             <td>{{main.description}}</td>
 
 
@@ -614,7 +608,7 @@
                         <tbody>
 
                         <tr ng-repeat="service in myReport.calls_for_service">
-                            <td>{{service.date_time}}</td>
+                            <td>{{service.time}}</td>
                             <td>{{service.description}}</td>
 
 
@@ -867,14 +861,14 @@
                     };
 
                     //$scope.clientProfile=!$scope.clientProfile;
-                    // alert(i);
                     var x = getIndexofClients(user.client_id, $scope.clients);
-                    //    alert(x);
                     $scope.buildingDetail = 1;
                     //$scope.clientBuildings=0;
                     $scope.building = user;
-                    //	alert($scope.clients[x]["client_id"]);
                     $scope.building.client_id = $scope.clients[x]["client_id"];
+                    showBuilding($scope.building.address, $scope.building.check_points);
+
+
                 });
             };
 
@@ -882,7 +876,7 @@
                 if (confirm("Delete Building: " + building_id + "?")) {
                     $http({
                         method: 'DELETE',
-                        url: host + '/buildings' + building_id
+                        url: host + '/buildings/' + building_id
                         //data: { "building_id":building_id}
 
                     }).success(function (res) {
@@ -900,11 +894,15 @@
             $scope.createOrEditBuilding = function (id) {
                 // alert(id);
                 if (typeof id === "undefined") {
-
+                    console.log($scope.building);
+                    $scope.building.address = document.getElementById('address').value;
+                    $scope.building.location = document.getElementById('location').value;
+                    $scope.building.check_points = document.getElementById('checkpoints').value;
+//                    $scope.building.check_points = JSON.stringify(checkPoints);
                     $http({
                         method: 'POST',
                         url: host + '/buildings',
-                        data: {"building": $scope.building}
+                        data: $scope.building
 
                     }).success(function (res) {
                         if (res.status == 201) {
@@ -920,7 +918,7 @@
                     $http({
                         method: 'POST',
                         url: host + '/buildings/' + id + '/update',
-                        data: {"building": $scope.building}
+                        data: $scope.building
 
                     }).success(function (res) {
                         if (res.status == 200) {
@@ -940,7 +938,7 @@
                     //alert(JSON.stringify(res));
                     $scope.clients = res;
                 });
-                $scope.building = [];
+                $scope.building = {};
                 $scope.buildingDetail = 1;
             };
         };

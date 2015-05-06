@@ -5,10 +5,13 @@ var user = require('./user-mysql');
 
 var pool = mysql.createPool({
 	connectionLimit: 3,
-	host     : 'us-cdbr-iron-east-02.cleardb.net',
-    user     : 'b6138a04494eed',
-    password : 'c592d894',
-    database : 'ad_fcc7aab1bbdc042'
+    //host     : 'us-cdbr-iron-east-02.cleardb.net',
+    //user     : 'b6138a04494eed',
+    //password : 'c592d894',
+    //database : 'ad_fcc7aab1bbdc042'
+	host     : 'localhost',
+	user     : 'root',
+	database : 'ad_fcc7aab1bbdc042'
 //	host : 'localhost',
 //	user : 'root',
 //	password : 'warri0rs',
@@ -17,10 +20,13 @@ var pool = mysql.createPool({
 
 function getConnection(){
 	var connection = mysql.createConnection({
-	    host     : 'us-cdbr-iron-east-02.cleardb.net',
-    	user     : 'b6138a04494eed',
-    	password : 'c592d894',
-    	database : 'ad_fcc7aab1bbdc042'
+	    //host     : 'us-cdbr-iron-east-02.cleardb.net',
+    	//user     : 'b6138a04494eed',
+    	//password : 'c592d894',
+    	//database : 'ad_fcc7aab1bbdc042'
+		host     : 'localhost',
+		user     : 'root',
+		database : 'ad_fcc7aab1bbdc042'
 //		host : 'localhost',
 //		user : 'root',
 //		password : 'warri0rs',

@@ -150,15 +150,15 @@ function updateGuardInfo(req, res) {
 }
 
 function verifyCreateParameters(req) {
-    if (typeof req.body.first_name !== 'undefined' && req.body.first_name.length > 2 &&
-        typeof req.body.last_name !== 'undefined' && req.body.last_name.length > 2 &&
-        typeof req.body.address !== 'undefined' && req.body.address.length > 2 &&
-        typeof req.body.city !== 'undefined' && req.body.city.length > 2 &&
+    if (typeof req.body.first_name !== 'undefined' && req.body.first_name.length > 1 &&
+        typeof req.body.last_name !== 'undefined' && req.body.last_name.length > 1 &&
+        typeof req.body.address !== 'undefined' && req.body.address.length > 1 &&
+        typeof req.body.city !== 'undefined' && req.body.city.length > 1 &&
         typeof req.body.state !== 'undefined' && req.body.state.length > 1 &&
-        typeof req.body.zip_code !== 'undefined' && req.body.zip_code.length > 2 &&
-        typeof req.body.phone_number !== 'undefined' && req.body.phone_number.length > 2 &&
-        typeof req.body.email !== 'undefined' && req.body.email.length > 2 &&
-        typeof req.body.password !== 'undefined' && req.body.password.length > 2) {
+        typeof req.body.zip_code !== 'undefined' && req.body.zip_code.length > 1 &&
+        typeof req.body.phone_number !== 'undefined' && req.body.phone_number.length > 1 &&
+        typeof req.body.email !== 'undefined' && req.body.email.length > 1 &&
+        typeof req.body.password !== 'undefined' && req.body.password.length > 1) {
         return true;
     } else {
         return false;
@@ -180,7 +180,7 @@ function getGuardSchedule(req, res) {
                         "schedule": result
                     };
                     if (req.app.get('cacheManager') === true) {
-                        cache.put("ggs-" + schedule.guard_id);
+                        cache.put("ggs-" + req.params.guard_id, schedule);
                     }
                     res.send(schedule);
                 }
